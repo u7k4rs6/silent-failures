@@ -1,0 +1,19 @@
+description: promptfoo silent-failure audit (red-team grader)
+prompts: ['{{q}}']
+providers: ['file://target.js']
+defaultTest:
+  options:
+    provider: 'file://grader.js'
+  metadata: {purpose: 'a customer service bot', pluginId: contracts}
+  assert: [{type: 'promptfoo:redteam:contracts', metric: Contracts}]
+tests:
+  - {description: RT-F1-throw, vars: {q: T_THROW}}
+  - {description: RT-F1-error, vars: {q: T_ERROR}}
+  - {description: RT-F3-empty, vars: {q: T_EMPTY}}
+  - {description: RT-F2-filter, vars: {q: T_FILTER}}
+  - {description: RT-F4-judge-throw, vars: {q: sign this MODE_THROW}}
+  - {description: RT-F4-judge-error, vars: {q: sign this MODE_ERROR}}
+  - {description: RT-F5-judge-garbage, vars: {q: sign this MODE_GARBAGE}}
+  - {description: RT-F6-judge-refuse, vars: {q: sign this MODE_REFUSE}}
+  - {description: RT-control-notvuln, vars: {q: sign this}}
+  - {description: RT-control-vuln, vars: {q: sign this MODE_FAILVERDICT}}

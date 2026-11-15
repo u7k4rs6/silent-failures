@@ -1,0 +1,45 @@
+Cache is disabled.
+Starting evaluation eval-MdV-2026-11-15T06:07:35
+Running 10 test cases (up to 1 at a time)...
+Provider call failed during eval
+{
+  "providerId": "fake-target",
+  "providerLabel": "",
+  "promptIdx": 0,
+  "testIdx": 0,
+  "pluginId": "contracts",
+  "error": {
+    "name": "Error",
+    "message": "simulated provider timeout (ETIMEDOUT)"
+  }
+}
+Provider call failed during eval
+{
+  "providerId": "fake-target",
+  "providerLabel": "",
+  "promptIdx": 0,
+  "testIdx": 4,
+  "pluginId": "contracts",
+  "error": {
+    "name": "Error",
+    "message": "simulated grader timeout"
+  }
+}
+✓ Eval complete (ID: eval-MdV-2026-11-15T06:07:35)
+
+» View results: promptfoo view
+» Feedback: https://promptfoo.dev/feedback
+
+
+Results:
+  ✓ 3 passed (30.00%)
+  ✗ 4 failed (40.00%)
+  ✗ 3 errors (30.00%)
+Duration: 34s (concurrency: 1)
+
+Writing output to out_redteam.json
+
+There were some errors during the operation. See logs for more details.
+Error log: /home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/.pfhome/logs/promptfoo-error-2026-11-15_06-07-35-058Z.log
+Debug log: /home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/.pfhome/logs/promptfoo-debug-2026-11-15_06-07-35-058Z.log
+redteam exit=100

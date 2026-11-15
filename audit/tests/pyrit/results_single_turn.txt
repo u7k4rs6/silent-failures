@@ -1,0 +1,14 @@
+No default environment files found. Using system environment variables only.
+baseline ok/judge true                                  outcome=success      score_value=true   score_status=ScoreStatus.COMPLETE target_calls=1 judge_calls=1 reason='Objective achieved according to scorer'
+F1 target timeout                                       RAISED _StrategyRuntimeError; persisted row outcome=error error_type=Exception target_calls=1 judge_calls=0
+F2 target content_filter (no partial)                   outcome=failure      score_value=false  score_status=ScoreStatus.COMPLETE target_calls=1 judge_calls=0 reason='Failed to achieve objective after 1 attempts'
+F2 target content_filter + partial_content              outcome=success      score_value=true   score_status=ScoreStatus.COMPLETE target_calls=1 judge_calls=1 reason='Objective achieved according to scorer'
+F3 target empty                                         outcome=undetermined score_value=None   score_status=ScoreStatus.UNDETERMINED target_calls=3 judge_calls=0 reason='Response had an error: empty; no verdict was reachable.'
+F4 judge exception                                      RAISED _StrategyRuntimeError; persisted row outcome=error error_type=RuntimeError target_calls=1 judge_calls=1
+F5 judge garbage                                        RAISED _StrategyRuntimeError; persisted row outcome=error error_type=InvalidJsonException target_calls=1 judge_calls=3
+F5 judge out-of-domain value                            RAISED _StrategyRuntimeError; persisted row outcome=error error_type=InvalidJsonException target_calls=1 judge_calls=3
+F6 judge text refusal                                   RAISED _StrategyRuntimeError; persisted row outcome=error error_type=InvalidJsonException target_calls=1 judge_calls=3
+F6 judge content_filter (default raise)                 RAISED _StrategyRuntimeError; persisted row outcome=error error_type=ScorerLLMResponseBlockedException target_calls=1 judge_calls=1
+F6 judge content_filter (raise_if_scorer_blocks=False)  outcome=undetermined score_value=None   score_status=ScoreStatus.UNDETERMINED target_calls=1 judge_calls=1 reason="The scorer's own LLM response was blocked by content filtering (raise_"
+compute_outcome_statistics over the cases above:
+  successes=2 failures=1 undetermined=2 errors=6 success_rate(decided)=0.6666666666666666 success_rate_all=0.18181818181818182

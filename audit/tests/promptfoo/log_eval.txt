@@ -1,0 +1,39 @@
+Cache is disabled.
+Starting evaluation eval-vyW-2026-11-15T06:06:59
+Running 13 test cases (up to 1 at a time)...
+Grouping model-graded assertions by provider to minimize local-model reload overhead.
+Provider call failed during eval
+{
+  "providerId": "fake-target",
+  "providerLabel": "",
+  "promptIdx": 0,
+  "testIdx": 0,
+  "error": {
+    "name": "Error",
+    "message": "simulated provider timeout (ETIMEDOUT)"
+  }
+}
+Assertion grading failed during eval
+{
+  "error": "Error: simulated grader timeout\n    at Grader.callApi (/home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/grader.js:5:46)\n    at callGradingProvider.callContext (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/graders-CqdIp_vl.js:146:36)\n    at invokeProvider (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/graders-CqdIp_vl.js:112:59)\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/graders-CqdIp_vl.js:119:24\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/providerRegistry-wn1xUT6S.js:82:18\n    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)\n    at ProviderRegistry.withProvider (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/providerRegistry-wn1xUT6S.js:69:31)\n    at callProvider (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/graders-CqdIp_vl.js:111:63)\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/shared-DDJg8ycC.js:1026:13\n    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)",
+  "promptIdx": 0,
+  "testIdx": 7
+}
+✓ Eval complete (ID: eval-vyW-2026-11-15T06:06:59)
+
+» View results: promptfoo view
+» Feedback: https://promptfoo.dev/feedback
+
+
+Results:
+  ✓ 4 passed (30.77%)
+  ✗ 5 failed (38.46%)
+  ✗ 4 errors (30.77%)
+Duration: 34s (concurrency: 1)
+
+Writing output to out_eval.json
+
+There were some errors during the operation. See logs for more details.
+Error log: /home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/.pfhome/logs/promptfoo-error-2026-11-15_06-06-59-196Z.log
+Debug log: /home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/.pfhome/logs/promptfoo-debug-2026-11-15_06-06-59-196Z.log
+eval exit=100

@@ -1,0 +1,8 @@
+TAP all branches timeout               outcome=error        nodes_pruned=3 error_message='Execution error: Error sending prompt with convers' target_calls=3 reason='No branch produced a scored response and 3 branches failed to execute. Last error: Executi'
+TAP 1 branch scored, 2 timeout         outcome=failure      nodes_pruned=2 error_message='' target_calls=3 reason='Did not achieve threshold score. Best score: 0.00'
+TAP all branches content_filter        outcome=failure      nodes_pruned=0 error_message='' target_calls=3 reason='Did not achieve threshold score. Best score: 0.00'
+TAP all branches empty                 outcome=undetermined nodes_pruned=0 error_message='' target_calls=9 reason='based on SelfAskScaleScorer\nNo verdict was reachable, so the threshold 0.7 could not be ap'
+PAIR all streams timeout               outcome=error        nodes_pruned=3 error_message='Execution error: Error sending prompt with convers' target_calls=3 reason='No branch produced a scored response and 3 branches failed to execute. Last error: Executi'
+Crescendo content_filter every turn    outcome=failure      backtracks=2 target_calls=4 judge_calls=0 reason='Max turns (2) reached without achieving objective'
+Crescendo empty every turn             outcome=undetermined backtracks=0 target_calls=6 judge_calls=0 reason='Objective scorer could not reach a verdict'
+Crescendo timeout                      RAISED _StrategyRuntimeError: Strategy execution failed for objective_target in CrescendoAttack: Error sending prompt with conversation ID: 93300565-8

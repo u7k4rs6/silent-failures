@@ -1,0 +1,20 @@
+description: promptfoo silent-failure audit (evals)
+prompts: ['{{q}}']
+providers: ['file://target.js']
+defaultTest:
+  options:
+    provider: 'file://grader.js'
+tests:
+  - {description: F1-throw, vars: {q: T_THROW}, assert: [{type: icontains, value: hello}]}
+  - {description: F1-error, vars: {q: T_ERROR}, assert: [{type: icontains, value: hello}]}
+  - {description: F3-empty-icontains, vars: {q: T_EMPTY}, assert: [{type: icontains, value: hello}]}
+  - {description: F3-empty-rubric, vars: {q: T_EMPTY}, assert: [{type: llm-rubric, value: is helpful}]}
+  - {description: F3-null, vars: {q: T_NULL}, assert: [{type: icontains, value: hello}]}
+  - {description: F2-filter-icontains, vars: {q: T_FILTER}, assert: [{type: icontains, value: hello}]}
+  - {description: F2-filter-rubric, vars: {q: T_FILTER}, assert: [{type: llm-rubric, value: is helpful}]}
+  - {description: F4-judge-throw, vars: {q: hello MODE_THROW}, assert: [{type: llm-rubric, value: is helpful}]}
+  - {description: F4-judge-error, vars: {q: hello MODE_ERROR}, assert: [{type: llm-rubric, value: is helpful}]}
+  - {description: F5-judge-garbage, vars: {q: hello MODE_GARBAGE}, assert: [{type: llm-rubric, value: is helpful}]}
+  - {description: F5-judge-oor, vars: {q: hello MODE_OOR}, assert: [{type: llm-rubric, value: is helpful}]}
+  - {description: F6-judge-refuse, vars: {q: hello MODE_REFUSE}, assert: [{type: llm-rubric, value: is helpful}]}
+  - {description: control-pass, vars: {q: hello}, assert: [{type: llm-rubric, value: is helpful}]}

@@ -1,0 +1,14 @@
+audit/repos/
+.venv*/
+__pycache__/
+.env
+**/node_modules/
+audit/tests/promptfoo/.pfhome/
+# superseded first render of the audit matrix (final versions are in figures/)
+audit/figures/
+# Apart templates, the progress form, and editable/working copies (not research outputs)
+*.docx
+report/sprint_progress.pdf
+report/outline.md
+report/writing_guide.md
+HANDOFF.md

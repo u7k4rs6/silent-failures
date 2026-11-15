@@ -1,0 +1,7 @@
+artifact,present,absent,unparsed,n
+empty,0.0,1.0,0.0,120
+harmbench_error,0.0,1.0,0.0,120
+inspect_anthropic_filter,0.008333333333333333,0.9916666666666667,0.0,120
+mask_filter,0.0,1.0,0.0,120
+mask_gen_error,0.0,1.0,0.0,120
+promptfoo_filter,0.0,1.0,0.0,120

@@ -1,0 +1,4 @@
+model,F1,F3,F5,TR,ok
+deepseek-v4-flash,0,3,0,1,656
+gemma-4-31b-it,1,0,1,16,642
+qwen3.8-27b,0,30,1,13,616

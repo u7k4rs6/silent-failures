@@ -1,0 +1,68 @@
+/home/utkuputku/Desktop/silent-failures/audit/repos/mask_orig/mask/evaluate.py:470: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  row['belief_system_1'] = "You are a helpful assistant."
+/home/utkuputku/Desktop/silent-failures/audit/repos/mask_orig/mask/evaluate.py:470: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  row['belief_system_1'] = "You are a helpful assistant."
+Is this a doubling down scenario? False
+Error occurred for prompt: lying_run1. Attempt 1/7. Retrying in 3.0 seconds.
+Error code: 503 - upstream timeout
+Error occurred for prompt: lying_run1. Attempt 2/7. Retrying in 6.0 seconds.
+Error code: 503 - upstream timeout
+Error occurred for prompt: lying_run1. Attempt 3/7. Retrying in 12.0 seconds.
+Error code: 503 - upstream timeout
+Error occurred for prompt: lying_run1. Attempt 4/7. Retrying in 24.0 seconds.
+Error code: 503 - upstream timeout
+Error occurred for prompt: lying_run1. Attempt 5/7. Retrying in 48.0 seconds.
+Error code: 503 - upstream timeout
+Error occurred for prompt: lying_run1. Attempt 6/7. Retrying in 96.0 seconds.
+Error code: 503 - upstream timeout
+Max retries exceeded for prompt: lying_run1
+Error code: 503 - upstream timeout
+Prompt violated content policy for prompt: lying_run1. Replacing with error message.
+Error occurred for prompt: lying_run1. Attempt 1/7. Retrying in 3.0 seconds.
+Error code: 400 - {'error': {'code': 'content_filter'}}
+Error occurred for prompt: lying_run1. Attempt 2/7. Retrying in 6.0 seconds.
+Error code: 400 - {'error': {'code': 'content_filter'}}
+Error occurred for prompt: lying_run1. Attempt 3/7. Retrying in 12.0 seconds.
+Error code: 400 - {'error': {'code': 'content_filter'}}
+Error occurred for prompt: lying_run1. Attempt 4/7. Retrying in 24.0 seconds.
+Error code: 400 - {'error': {'code': 'content_filter'}}
+Error occurred for prompt: lying_run1. Attempt 5/7. Retrying in 48.0 seconds.
+Error code: 400 - {'error': {'code': 'content_filter'}}
+Error occurred for prompt: lying_run1. Attempt 6/7. Retrying in 96.0 seconds.
+Error code: 400 - {'error': {'code': 'content_filter'}}
+Max retries exceeded for prompt: lying_run1
+Error code: 400 - {'error': {'code': 'content_filter'}}
+WARNING: Error processing response for index 0, prompt type lying_run1: Generation failed or timed out
+WARNING: Error processing response for index 2, prompt type lying_run1: Generation failed or timed out
+WARNING: Error processing response for index 3, prompt type lying_run1: Generation failed or timed out
+== A: stored generations (after CSV round-trip, as evaluate.py reads them) ==
+  F1   -> '[ERROR: Generation failed or timed out]'
+  F2a  -> '[Error: Prompt violated content policies]'
+  F2b  -> '[ERROR: Generation failed or timed out]'
+  F2c  -> '[ERROR: Generation failed or timed out]'
+  F3   -> nan
+  ok   -> 'ok answer'
+Error occurred for prompt: response. Retrying in 2 seconds.
+Error code: 500 - judge down
+Error occurred for prompt: response. Retrying in 4 seconds.
+Error code: 500 - judge down
+Error occurred for prompt: response. Retrying in 8 seconds.
+Error code: 500 - judge down
+Error occurred for prompt: response. Retrying in 16 seconds.
+Error code: 500 - judge down
+Error occurred for prompt: response. Retrying in 32 seconds.
+Error code: 500 - judge down
+Timeout processing row 0
+Warning: Could not find 'Answer:' in response: TIMEOUT_ERROR
+Warning: Could not find 'Answer:' in response: TIMEOUT_ERROR
+== B: process_row with one persistently failing judge call (60s, 6 calls) ==
+  eval(System Prompt + User Prompt)_run1 = 'TIMEOUT_ERROR'
+  eval(System Prompt + User Prompt)_run1_extracted = None
+  eval(belief_system_1 + belief_elicit_1)_run1 = 'TIMEOUT_ERROR'
+  eval(belief_system_1 + belief_elicit_1)_run1_extracted = None

@@ -1,0 +1,1677 @@
+{
+  "evalId": "eval-vyW-2026-11-15T06:06:59",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-11-15T06:06:59.408Z",
+    "prompts": [
+      {
+        "id": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "raw": "{{q}}",
+        "label": "{{q}}",
+        "provider": "fake-target",
+        "metrics": {
+          "score": 10,
+          "testPassCount": 4,
+          "testFailCount": 5,
+          "testErrorCount": 4,
+          "testCacheHitCount": 0,
+          "assertPassCount": 4,
+          "assertFailCount": 5,
+          "totalLatencyMs": 45,
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "total": 0,
+            "numRequests": 12,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 7,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0,
+        "error": "Error: simulated provider timeout (ETIMEDOUT)\n    at Target.callApi (/home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/target.js:5:43)\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/evaluator-BxCmvGtv.js:7779:114\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/providerRegistry-wn1xUT6S.js:82:18\n    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)\n    at ProviderRegistry.withProvider (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/providerRegistry-wn1xUT6S.js:69:31)\n    at invoke (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/evaluator-BxCmvGtv.js:7771:41)\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/evaluator-BxCmvGtv.js:7793:93\n    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)\n    at withProviderCallExecutionContext (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/shared-DDJg8ycC.js:28:38)\n    at callApi (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/evaluator-BxCmvGtv.js:7783:10)",
+        "gradingResult": null,
+        "id": "18732cb1-b30f-4f14-9d36-2833012b259a",
+        "latencyMs": 0,
+        "namedScores": {},
+        "prompt": {
+          "raw": "T_THROW",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F1-throw",
+          "vars": {
+            "q": "T_THROW"
+          },
+          "assert": [
+            {
+              "type": "icontains",
+              "value": "hello"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "T_THROW"
+        },
+        "metadata": {
+          "errorContext": {
+            "providerId": "fake-target",
+            "providerLabel": ""
+          }
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "error": "API error: 500 Internal Server Error",
+        "gradingResult": null,
+        "id": "adbc6208-3a9d-40d3-8e1d-68a7b1094cb4",
+        "latencyMs": 23,
+        "namedScores": {},
+        "prompt": {
+          "raw": "T_ERROR",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "error": "API error: 500 Internal Server Error"
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F1-error",
+          "vars": {
+            "q": "T_ERROR"
+          },
+          "assert": [
+            {
+              "type": "icontains",
+              "value": "hello"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "T_ERROR"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "error": "Expected output to contain \"hello\"",
+        "gradingResult": {
+          "pass": false,
+          "score": 0,
+          "reason": "Expected output to contain \"hello\"",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "score": 0,
+              "reason": "Expected output to contain \"hello\"",
+              "assertion": {
+                "type": "icontains",
+                "value": "hello"
+              }
+            }
+          ]
+        },
+        "id": "0625e7d6-9e1a-4275-8107-3cea16fb605c",
+        "latencyMs": 1,
+        "namedScores": {},
+        "prompt": {
+          "raw": "T_EMPTY",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": ""
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F3-empty-icontains",
+          "vars": {
+            "q": "T_EMPTY"
+          },
+          "assert": [
+            {
+              "type": "icontains",
+              "value": "hello"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "T_EMPTY"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "is helpful"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "ok",
+              "tokensUsed": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n\\n</Output>\\n<Rubric>\\nis helpful\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "4bbf576e-920f-46c9-a8b8-5a8b484b59c0",
+        "latencyMs": 1,
+        "namedScores": {},
+        "prompt": {
+          "raw": "T_EMPTY",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": ""
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "description": "F3-empty-rubric",
+          "vars": {
+            "q": "T_EMPTY"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "is helpful"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 3,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "T_EMPTY"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "error": "No output",
+        "gradingResult": null,
+        "id": "677c41ab-3ce2-4773-8535-7fcd009aab47",
+        "latencyMs": 15,
+        "namedScores": {},
+        "prompt": {
+          "raw": "T_NULL",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {},
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F3-null",
+          "vars": {
+            "q": "T_NULL"
+          },
+          "assert": [
+            {
+              "type": "icontains",
+              "value": "hello"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 4,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "T_NULL"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "error": "Expected output to contain \"hello\"",
+        "gradingResult": {
+          "pass": false,
+          "score": 0,
+          "reason": "Expected output to contain \"hello\"",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "score": 0,
+              "reason": "Expected output to contain \"hello\"",
+              "assertion": {
+                "type": "icontains",
+                "value": "hello"
+              }
+            }
+          ]
+        },
+        "id": "f4bb0d51-aecf-4217-8d62-e47893af5a57",
+        "latencyMs": 0,
+        "namedScores": {},
+        "prompt": {
+          "raw": "T_FILTER",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": "Content filtered by provider",
+          "isRefusal": true,
+          "finishReason": "content_filter",
+          "guardrails": {
+            "flagged": true
+          }
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F2-filter-icontains",
+          "vars": {
+            "q": "T_FILTER"
+          },
+          "assert": [
+            {
+              "type": "icontains",
+              "value": "hello"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 5,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "T_FILTER"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "is helpful"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "ok",
+              "tokensUsed": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nContent filtered by provider\\n</Output>\\n<Rubric>\\nis helpful\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "5e6107a5-0f62-4be5-89e2-ad4ebbe8b72f",
+        "latencyMs": 1,
+        "namedScores": {},
+        "prompt": {
+          "raw": "T_FILTER",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": "Content filtered by provider",
+          "isRefusal": true,
+          "finishReason": "content_filter",
+          "guardrails": {
+            "flagged": true
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "description": "F2-filter-rubric",
+          "vars": {
+            "q": "T_FILTER"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "is helpful"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 6,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "T_FILTER"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "error": "Error: simulated grader timeout\n    at Grader.callApi (/home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/grader.js:5:46)\n    at callGradingProvider.callContext (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/graders-CqdIp_vl.js:146:36)\n    at invokeProvider (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/graders-CqdIp_vl.js:112:59)\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/graders-CqdIp_vl.js:119:24\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/providerRegistry-wn1xUT6S.js:82:18\n    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)\n    at ProviderRegistry.withProvider (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/providerRegistry-wn1xUT6S.js:69:31)\n    at callProvider (file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/graders-CqdIp_vl.js:111:63)\n    at file:///home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo/node_modules/promptfoo/dist/src/shared-DDJg8ycC.js:1026:13\n    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)",
+        "gradingResult": null,
+        "id": "b98c3a43-19f1-44ab-a314-d26769135870",
+        "latencyMs": 2,
+        "namedScores": {},
+        "prompt": {
+          "raw": "hello MODE_THROW",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": "hello MODE_THROW"
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F4-judge-throw",
+          "vars": {
+            "q": "hello MODE_THROW"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "is helpful"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 7,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "hello MODE_THROW"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "error": "API error: 503 grader unavailable",
+        "gradingResult": {
+          "pass": false,
+          "score": 0,
+          "reason": "API error: 503 grader unavailable",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "reason": "API error: 503 grader unavailable",
+              "score": 0,
+              "tokensUsed": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "graderError": true
+              },
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "is helpful"
+              }
+            }
+          ]
+        },
+        "id": "6debdcd6-6af1-4890-9f2d-d6d310190df6",
+        "latencyMs": 0,
+        "namedScores": {},
+        "prompt": {
+          "raw": "hello MODE_ERROR",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": "hello MODE_ERROR"
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F4-judge-error",
+          "vars": {
+            "q": "hello MODE_ERROR"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "is helpful"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 8,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "hello MODE_ERROR"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      },
+      {
+        "cost": 0,
+        "error": "Could not extract JSON from llm-rubric response",
+        "gradingResult": {
+          "pass": false,
+          "score": 0,
+          "reason": "Could not extract JSON from llm-rubric response",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "reason": "Could not extract JSON from llm-rubric response",
+              "score": 0,
+              "tokensUsed": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "graderError": true
+              },
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "is helpful"
+              }
+            }
+          ]
+        },
+        "id": "c4e9f97d-1649-406d-86f7-efe88cb6d259",
+        "latencyMs": 1,
+        "namedScores": {},
+        "prompt": {
+          "raw": "hello MODE_GARBAGE",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": "hello MODE_GARBAGE"
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F5-judge-garbage",
+          "vars": {
+            "q": "hello MODE_GARBAGE"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "is helpful"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 9,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "hello MODE_GARBAGE"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 7,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "is helpful"
+              },
+              "pass": true,
+              "score": 7,
+              "reason": "no pass field, score out of [0,1]",
+              "tokensUsed": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nhello MODE_OOR\\n</Output>\\n<Rubric>\\nis helpful\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "b9d90eeb-771f-4bcd-a9fe-77fe184062e7",
+        "latencyMs": 1,
+        "namedScores": {},
+        "prompt": {
+          "raw": "hello MODE_OOR",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": "hello MODE_OOR"
+        },
+        "score": 7,
+        "success": true,
+        "testCase": {
+          "description": "F5-judge-oor",
+          "vars": {
+            "q": "hello MODE_OOR"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "is helpful"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 10,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "hello MODE_OOR"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "error": "Could not extract JSON from llm-rubric response",
+        "gradingResult": {
+          "pass": false,
+          "score": 0,
+          "reason": "Could not extract JSON from llm-rubric response",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "reason": "Could not extract JSON from llm-rubric response",
+              "score": 0,
+              "tokensUsed": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "graderError": true
+              },
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "is helpful"
+              }
+            }
+          ]
+        },
+        "id": "f1699746-6ea6-418c-bd2e-d9b2feb0208b",
+        "latencyMs": 0,
+        "namedScores": {},
+        "prompt": {
+          "raw": "hello MODE_REFUSE",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": "hello MODE_REFUSE"
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "F6-judge-refuse",
+          "vars": {
+            "q": "hello MODE_REFUSE"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "is helpful"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 11,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "hello MODE_REFUSE"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "is helpful"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "ok",
+              "tokensUsed": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nhello\\n</Output>\\n<Rubric>\\nis helpful\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "ac935f6d-0249-4850-a824-b52f05f4d881",
+        "latencyMs": 0,
+        "namedScores": {},
+        "prompt": {
+          "raw": "hello",
+          "label": "{{q}}",
+          "config": {
+            "provider": "file://grader.js"
+          }
+        },
+        "promptId": "75640dc3a6955d7c03f1f6d8895ca56eafd2333d2ff759008367a048ae2a0b7d",
+        "promptIdx": 0,
+        "provider": {
+          "id": "fake-target",
+          "label": ""
+        },
+        "response": {
+          "output": "hello"
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "description": "control-pass",
+          "vars": {
+            "q": "hello"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "is helpful"
+            }
+          ],
+          "options": {
+            "provider": "file://grader.js"
+          },
+          "metadata": {}
+        },
+        "testIdx": 12,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "total": 0,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "q": "hello"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 4,
+      "failures": 5,
+      "errors": 4,
+      "tokenUsage": {
+        "prompt": 0,
+        "completion": 0,
+        "cached": 0,
+        "total": 0,
+        "numRequests": 12,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 0,
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "numRequests": 7,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        }
+      },
+      "durationMs": 34285,
+      "evaluationDurationMs": 34285
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "promptfoo silent-failure audit (evals)",
+    "prompts": [
+      "{{q}}"
+    ],
+    "providers": [
+      "file://target.js"
+    ],
+    "tests": [
+      {
+        "description": "F1-throw",
+        "vars": {
+          "q": "T_THROW"
+        },
+        "assert": [
+          {
+            "type": "icontains",
+            "value": "hello"
+          }
+        ]
+      },
+      {
+        "description": "F1-error",
+        "vars": {
+          "q": "T_ERROR"
+        },
+        "assert": [
+          {
+            "type": "icontains",
+            "value": "hello"
+          }
+        ]
+      },
+      {
+        "description": "F3-empty-icontains",
+        "vars": {
+          "q": "T_EMPTY"
+        },
+        "assert": [
+          {
+            "type": "icontains",
+            "value": "hello"
+          }
+        ]
+      },
+      {
+        "description": "F3-empty-rubric",
+        "vars": {
+          "q": "T_EMPTY"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "is helpful"
+          }
+        ]
+      },
+      {
+        "description": "F3-null",
+        "vars": {
+          "q": "T_NULL"
+        },
+        "assert": [
+          {
+            "type": "icontains",
+            "value": "hello"
+          }
+        ]
+      },
+      {
+        "description": "F2-filter-icontains",
+        "vars": {
+          "q": "T_FILTER"
+        },
+        "assert": [
+          {
+            "type": "icontains",
+            "value": "hello"
+          }
+        ]
+      },
+      {
+        "description": "F2-filter-rubric",
+        "vars": {
+          "q": "T_FILTER"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "is helpful"
+          }
+        ]
+      },
+      {
+        "description": "F4-judge-throw",
+        "vars": {
+          "q": "hello MODE_THROW"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "is helpful"
+          }
+        ]
+      },
+      {
+        "description": "F4-judge-error",
+        "vars": {
+          "q": "hello MODE_ERROR"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "is helpful"
+          }
+        ]
+      },
+      {
+        "description": "F5-judge-garbage",
+        "vars": {
+          "q": "hello MODE_GARBAGE"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "is helpful"
+          }
+        ]
+      },
+      {
+        "description": "F5-judge-oor",
+        "vars": {
+          "q": "hello MODE_OOR"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "is helpful"
+          }
+        ]
+      },
+      {
+        "description": "F6-judge-refuse",
+        "vars": {
+          "q": "hello MODE_REFUSE"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "is helpful"
+          }
+        ]
+      },
+      {
+        "description": "control-pass",
+        "vars": {
+          "q": "hello"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "is helpful"
+          }
+        ]
+      }
+    ],
+    "env": {},
+    "sharing": false,
+    "outputPath": [
+      "out_eval.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {},
+    "defaultTest": {
+      "options": {
+        "provider": "file://grader.js"
+      },
+      "vars": {},
+      "assert": [],
+      "metadata": {}
+    },
+    "basePath": "/home/utkuputku/Desktop/silent-failures/audit/tests/promptfoo"
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.125.1",
+    "nodeVersion": "v24.15.0",
+    "platform": "linux",
+    "arch": "x64",
+    "exportedAt": "2026-11-15T06:07:33.728Z",
+    "evaluationCreatedAt": "2026-11-15T06:06:59.408Z"
+  },
+  "vars": [
+    "q"
+  ],
+  "runtimeOptions": {
+    "eventSource": "cli",
+    "showProgressBar": true,
+    "repeat": 1,
+    "maxConcurrency": 1,
+    "cache": false
+  }
+}
