@@ -20,5 +20,5 @@ brand-bias only     score 0.070, bounds [0.055, 0.273]   <- 24 of 110 answers fa
 
 - **Retries:** count each item once, by its final outcome after retries, and report how many items needed retries.
 - **Partial outputs:** an answer cut off at the token limit is ERROR unless the tool can verify it is complete (e.g. a normal finish reason).
-- **Invalid but gradable:** an answer the judge flags as invalid is UNDETERMINED, not absent, even if the judge also returns a verdict.
+- **Invalid but gradable:** if the judge flags an answer as invalid but still returns a verdict, keep the verdict and report how many answers were flagged; never convert them to absent.
 - **Several judges:** report their agreement, or the bounds across judges, rather than one judge's score.
