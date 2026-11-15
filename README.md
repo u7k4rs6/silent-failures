@@ -18,7 +18,7 @@ When an AI eval breaks (a provider error, a content-filter block, an empty answe
 - `data/raw/` — every raw generation, judge and probe record (JSONL, never edited) plus the DarkBench dataset.
 - `data/derived/` — scored item table and summaries; `judge_failures.md` diagnoses every judge failure.
 - `figures/` — all figures and tables in the report.
-- `report/` — the report (PDF and Markdown source, `build.sh`), the reporting standard, and verified references.
+- `report/` — the report (`silent_failures_report.pdf`, built from `report.html` by `build.sh` with headless Chrome), the reporting standard, and verified references.
 
 ## Reproduce
 
@@ -43,7 +43,7 @@ python experiment/apply_standard.py
 python experiment/make_figures.py
 python audit/make_matrix.py
 
-# 3. report (needs pandoc and xelatex)
+# 3. report (needs Google Chrome)
 sh report/build.sh
 ```
 

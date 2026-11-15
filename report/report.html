@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Silent Failures: How Eval Harnesses Turn Infrastructure Errors into Model Behaviour</title>
+<style>
+  @page { size: A4; margin: 17mm 19mm 16mm 19mm; }
+  :root { --ink:#1b1f29; --muted:#5a6272; --faint:#8a91a0; --line:#dfe3ea; --accent:#2b59c3; --soft:#f2f5fb; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin:0; color:var(--ink); font-family:"Noto Serif","DejaVu Serif",serif; font-size:10pt; line-height:1.48;
+         hyphens:auto; text-align:left; }
+  p { margin:0 0 6pt; }
+  h1, h2, h3, .sans, figcaption, table, .abstract-label, .meta, .callout b, .refs { font-family:"Noto Sans","DejaVu Sans",sans-serif; }
+
+  /* title block */
+  .title { text-align:center; margin:2pt 0 14pt; }
+  h1 { font-size:17.5pt; line-height:1.25; font-weight:700; margin:0 0 10pt; letter-spacing:-.005em; }
+  .meta { font-size:10pt; color:var(--muted); line-height:1.5; }
+  .meta strong { color:var(--ink); font-size:10.5pt; }
+  .note { font-family:"Noto Sans",sans-serif; font-size:7.8pt; color:var(--faint); margin-top:6pt; }
+
+  .abstract { background:var(--soft); border-radius:6px; padding:10pt 14pt 9pt; margin:0 0 12pt; }
+  .abstract-label { font-size:8.5pt; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin-bottom:4pt; }
+  .abstract p { font-size:9.6pt; line-height:1.46; margin:0; }
+
+  h2 { font-size:12.5pt; font-weight:700; margin:13pt 0 5pt; break-after:avoid; }
+  h3 { font-size:10.2pt; font-weight:700; margin:9pt 0 3pt; color:#2b3242; break-after:avoid; }
+  h2 + h3 { margin-top:6pt; }
+
+  ol, ul { margin:0 0 7pt; padding-left:17pt; }
+  li { margin:0 0 2.5pt; }
+  .contrib li { margin-bottom:4pt; }
+  code { font-family:"DejaVu Sans Mono",monospace; font-size:7.9pt; color:#3b4252; background:#f3f4f7; padding:0 2.5pt; border-radius:2.5pt; }
+  .ref { color:var(--muted); }
+
+  dl.defs { display:grid; grid-template-columns:78pt 1fr; gap:2pt 10pt; margin:2pt 0 8pt; font-size:9.8pt; }
+  dl.defs dt { font-family:"Noto Sans",sans-serif; font-weight:700; font-size:9pt; color:#2b3242; }
+  dl.defs dd { margin:0; }
+
+  .callout { border-left:3px solid var(--accent); background:var(--soft); padding:8pt 12pt; margin:8pt 0 10pt; border-radius:0 5px 5px 0; }
+  .callout p { margin:0; }
+  .callout b { color:var(--accent); font-size:8.5pt; letter-spacing:.06em; text-transform:uppercase; display:block; margin-bottom:2pt; }
+
+  figure { margin:8pt 0 9pt; break-inside:avoid; }
+  figure img { width:100%; display:block; }
+  figcaption { font-size:8.4pt; line-height:1.45; color:var(--muted); margin-top:5pt; }
+  figcaption strong { color:var(--ink); }
+
+  table { border-collapse:collapse; width:100%; font-size:8.6pt; margin:4pt 0 4pt; }
+  th { text-align:left; font-weight:700; border-bottom:1.2px solid var(--ink); padding:4pt 6pt; }
+  td { padding:3.5pt 6pt; border-bottom:1px solid var(--line); }
+  td.n, th.n { text-align:right; font-variant-numeric:tabular-nums; }
+  .tcap { font-family:"Noto Sans",sans-serif; font-size:8.4pt; color:var(--muted); margin:0 0 3pt; }
+  .tcap strong { color:var(--ink); }
+
+  .refs { font-size:8.1pt; line-height:1.42; color:#30374a; }
+  .refs ol { padding-left:20pt; }
+  .refs li { margin-bottom:3.5pt; }
+  .refs a, a { color:var(--accent); text-decoration:none; overflow-wrap:anywhere; }
+  .appendix { break-before:page; }
+  pre { font-family:"DejaVu Sans Mono",monospace; font-size:7.6pt; line-height:1.4; background:#f6f7f9; border:1px solid var(--line);
+        border-radius:5px; padding:8pt 10pt; white-space:pre-wrap; }
+  .small { font-size:9.4pt; }
+</style>
+</head>
+<body>
+
+<div class="title">
+  <h1>Silent Failures: How Eval Harnesses Turn<br>Infrastructure Errors into Model Behaviour</h1>
+  <div class="meta"><strong>Utkarsh Bahuguna</strong><br>Independent<br><em>With Apart Research</em></div>
+  <div class="note">Research conducted at the AI x Epistemics Research Sprint (Apart Research), November 2026.</div>
+</div>
+
+<div class="abstract">
+  <div class="abstract-label">Abstract</div>
+  <p>Safety and honesty evaluations are how labs, safety institutes and regulators learn what models do. But every evaluation pipeline can fail, at the model provider, a content filter or the LLM judge, and the harness must still record something. I audited seven widely used evaluation tools across six failure types, with code-level evidence and injected tests. In 39 of 62 default failure paths, the failure silently becomes an ordinary score; only 6 record it as a separate outcome. In inspect_evals’ MASK, for example, a run in which every judge call fails reports a perfectly honest model. On DarkBench with three models, the judge scored 719 of 720 failure artifacts as “no dark pattern”, and real failures clustered: 24 of Qwen’s 110 brand-bias answers failed, and how they are counted alone moves Qwen from the least brand-biased model (0.055, under DarkBench’s own rules) to the most (0.273). I propose a three-rule reporting standard (outcome counts and coverage, worst- and best-case bounds, and never scoring a failure as behaviour) and apply it to my own results.</p>
+</div>
+
+<h2>1. Introduction</h2>
+<p>If every call to the judge model fails, the MASK honesty benchmark in the UK AI Security Institute’s <code>inspect_evals</code> library reports that the model is perfectly honest (§4.1). Evaluations are epistemic infrastructure: labs, safety institutes and regulators act on their scores, usually without seeing what the harness decided along the way.</p>
+<p>An evaluation is a pipeline (prompt → model → content filter → judge → score), and any step can fail. The harness must still record something. These failures are not random: filters fire on sensitive content, and in my DarkBench run one model’s empty answers fell entirely within two manipulation categories. Practitioners have reported individual cases <span class="ref">[1–3]</span>, but no one has surveyed how tools handle failures or measured what it does to scores. My contributions:</p>
+<ol class="contrib">
+  <li><strong>A cross-tool audit</strong> of 7 tools (12 components) across 6 failure types, with file-and-line evidence and injected tests. It names a common, previously unnamed route: <em>graded as output</em>, where the harness hands an error message to the judge as if the model had written it.</li>
+  <li><strong>A measurement on DarkBench</strong>: natural failure rates, how a judge scores failure artifacts, and a real ranking flip caused only by how failures are counted.</li>
+  <li><strong>A three-rule reporting standard</strong> with a reference implementation, applied to these results.</li>
+</ol>
+
+<h2>2. Related Work</h2>
+<p>Work on LLM judges asks how accurately they grade valid outputs <span class="ref">[4–7]</span>; I ask what gets recorded when there is no valid output. Evaluation setup is known to change results <span class="ref">[8]</span>; failure handling is one such choice that has not been measured. Individual papers fix their own policy (JMed48k scores non-answers as incorrect <span class="ref">[9]</span>; Weng et al. report lower and worst-case bounds for judge parse failures <span class="ref">[10]</span>), whereas I survey the tool defaults that most users never see. Grading choices also create incentives <span class="ref">[11]</span>; failure handling creates one more (§5).</p>
+<p class="small">PyRIT’s ERROR and UNDETERMINED attack outcomes include my earlier contributions (PR #3169, merged 14 October 2026; PR #4159, opened 10 November and merged 13 November 2026). These predate this sprint and are not results of this work <span class="ref">[15, 16]</span>.</p>
+
+<h2>3. Methods</h2>
+<h3>3.1 Failure types and policies</h3>
+<dl class="defs">
+  <dt>Failures</dt><dd><strong>F1</strong> provider error or timeout (after retries) · <strong>F2</strong> content filter · <strong>F3</strong> empty answer · <strong>F4</strong> judge call error · <strong>F5</strong> judge output unparseable · <strong>F6</strong> judge refuses. In the experiment, an answer cut off at the output-token limit also counts as a failed generation.</dd>
+  <dt>Policies</dt><dd>What the tool records, relative to the metric: <em>imputed absent</em>, <em>imputed present</em>, <em>random</em>, <em>graded as output</em>, <em>dropped</em> (silently or with a count), a <em>separate</em> ERROR outcome, or <em>abort</em>; any of these may follow retries.</dd>
+</dl>
+<h3>3.2 Audit</h3>
+<p>For 12 components of 7 tools at pinned commits (Appendix A), I traced each failure type from where it occurs to where a score is recorded, and confirmed behaviour with small injected tests (mock models or judges that error, return a filter response, or return junk). The <em>default route</em> is the behaviour without non-default flags; 46 of the 62 default routes are confirmed by tests and 16 are read from source. AI coding assistants helped with the audit; I checked every cited behaviour at its pinned commit.</p>
+<h3>3.3 Experiment</h3>
+<p>DarkBench <span class="ref">[12]</span> has 660 prompts, 110 in each of six dark-pattern categories. I queried Gemma 4 31B, Qwen 3.8 27B and DeepSeek V4 Flash through the Adaption Labs API, with GLM 5.2 as the judge, using DarkBench’s system prompt, judge prompt and temperature 0, and a 4,096-token output limit. All raw responses, statuses and token counts were logged and scored in a separate step. The score is the share of prompts where the judge marks the pattern present (higher means more manipulative).</p>
+<p>An <strong>artifact probe</strong> sent the judge six failure artifacts that audited tools actually produce (HarmBench’s <code>$ERROR$</code> <span class="ref">[14]</span>, two MASK placeholders, promptfoo’s filter message, Inspect’s synthesized refusal, and an empty string), each against 120 prompts, as if it were the model’s answer.</p>
+<h3>3.4 Replay and simulation</h3>
+<p>I scored the natural results under each policy, and replayed DarkBench’s own scoring rules. For the simulation, on the 597 prompts every model answered, I injected failures at rates from 0 to 30% into the truly worse model only: at random (MCAR), or four times as often where the pattern was present (MNAR, like an output filter), at the same mean rate. A <em>flip point</em> is the smallest rate at which the worse model looks no worse in at least half of 1,000 repetitions.</p>
+
+<h2>4. Results</h2>
+<h3>4.1 Most failures silently become scores</h3>
+<p>In <strong>39 of 62</strong> default paths, a failure becomes an ordinary score; only <strong>6</strong> record it separately (Figure 1). The direction differs by tool, so the same failure can make a model look safer in one evaluation and less safe in another:</p>
+<ul>
+  <li><strong>MASK (inspect_evals):</strong> unparseable judge outputs stay in the denominator as “not a lie”, so all-failed judging reports perfect honesty. <code>mask/metrics/core.py:124–139</code></li>
+  <li><strong>DarkBench:</strong> empty and filtered answers go to the judge as if real; judge failures are retried, then dropped without a count; its current code cannot match the dataset’s labels for 3 of 6 categories. <code>scorer.py:85–93, 123, 242–266</code></li>
+  <li><strong>promptfoo red-teaming:</strong> a judge error, junk output or judge refusal is recorded as a successful attack. <code>rubric.ts:776–779, 927–931; runEval.ts:167–171</code></li>
+  <li><strong>Inspect:</strong> when Anthropic’s filter blocks a reply, Inspect stores “Sorry, but I am unable to help with that request.” as the model’s answer. <code>anthropic.py:2201–2203</code></li>
+</ul>
+<figure>
+  <img src="../figures/audit_matrix_wide.png" alt="Audit matrix">
+  <figcaption><strong>Figure 1.</strong> Default failure handling in 12 components of 7 evaluation tools. Rows are failure types, columns are tool components; each cell shows what the tool records by default. “R→” means the tool retries first; “—” means not applicable or not audited.</figcaption>
+</figure>
+
+<h3>4.2 Real failures cluster by model and category</h3>
+<p>Of 1,980 generations, 66 failed: DeepSeek 4, Gemma 18 and Qwen 44 (6.7% of its answers).</p>
+<ul>
+  <li><strong>33 empty answers</strong> (Qwen 30, DeepSeek 3). All of Qwen’s fall in brand bias (16) and sycophancy (14); 29 of them came after its reasoning used up the token limit.</li>
+  <li><strong>30 answers cut off</strong> at the limit (Gemma 16, Qwen 13, DeepSeek 1). All 16 of Gemma’s are degenerate loops, the word “our” repeated until the limit.</li>
+  <li><strong>1 provider error</strong> (Gemma) and <strong>2 judge failures</strong>, where the judge itself ran out of tokens.</li>
+</ul>
+<p>Brand bias is where failures concentrate: 24 of Qwen’s 110 answers failed, against 3 for DeepSeek and 1 for Gemma. For 10 of Gemma’s loops the judge did answer, but the API returned the verdict in its reasoning field and left the message empty, so a harness reading the message sees a judge failure. My own first scoring pass made the same mistake the paper describes: it graded Gemma’s loops as normal answers and scored six of them “no dark pattern”. I fixed it by treating every answer that hit the token limit as a failure.</p>
+
+<h3>4.3 The judge scores failure artifacts as clean</h3>
+<p>The judge scored <strong>719 of 720</strong> failure artifacts as “no dark pattern”, so in practice <em>graded as output</em> behaves like <em>imputed absent</em>. The one exception is telling: it marked Inspect’s synthesized refusal as brand bias, for “refusing to discuss a competitor”, blaming the model for a refusal the harness wrote.</p>
+
+<h3>4.4 Failure handling alone flips a ranking</h3>
+<div class="callout">
+  <b>Headline result (real data, no simulation)</b>
+  <p>In brand bias, Qwen’s 24 failed answers decide its rank. Under DarkBench’s own scoring rules it is the <strong>least</strong> brand-biased model (0.055, rank 1); counting the failures as present makes it the <strong>most</strong> (0.273, rank 3); dropping them gives 0.070.</p>
+</div>
+<p>Sycophancy shows the same pattern (0.000, tied rank 1, against 0.136, rank 3), while no other model’s range is wider than 0.055. Overall the ranges are narrower (Qwen 0.195–0.262, Gemma 0.224–0.252, DeepSeek 0.270–0.276), but Qwen’s range is still larger than its gap to Gemma: 0.035 under DarkBench’s rules, and 0.025 on the 597 prompts every model answered (Qwen 0.211, 95% CI 0.181–0.245). The true value is unknown, and a single reported number hides that.</p>
+<p>DarkBench’s rules also discard real detections. In eight answers the judge found the pattern but also flagged the answer “invalid” (DeepSeek 6, Qwen 2), and DarkBench counts invalid answers as absent (<code>scorer.py:148–155</code>). That is why DarkBench’s DeepSeek score (0.261) sits below even the all-failures-absent bound (0.270).</p>
+<figure>
+  <img src="../figures/fig_flip.png" alt="Ranking flip figure">
+  <figcaption><strong>Figure 2.</strong> Dark-pattern rate per model from real failures only. Each line spans counting every failure (empty, cut-off or judge failure) as absent to counting it as present; the large dot is DarkBench’s own scoring rules replayed on the same data, and the tick drops failures. In brand bias, how 24 failures are counted alone moves Qwen from least to most biased.</figcaption>
+</figure>
+
+<h3>4.5 The reporting standard, applied</h3>
+<p class="tcap"><strong>Table 1.</strong> Full run reported under the standard. FAIL = pattern present; ERROR = generation failed; UNDET. = judge failed; bounds count every failure as absent or as present.</p>
+<table>
+  <tr><th>Model</th><th class="n">PASS</th><th class="n">FAIL</th><th class="n">ERROR</th><th class="n">UNDET.</th><th class="n">Coverage</th><th class="n">Score (valid)</th><th class="n">Bounds</th></tr>
+  <tr><td>DeepSeek V4 Flash</td><td class="n">478</td><td class="n">178</td><td class="n">4</td><td class="n">0</td><td class="n">0.994</td><td class="n">0.271</td><td class="n">[0.270, 0.276]</td></tr>
+  <tr><td>Gemma 4 31B</td><td class="n">494</td><td class="n">148</td><td class="n">17</td><td class="n">1</td><td class="n">0.973</td><td class="n">0.231</td><td class="n">[0.224, 0.252]</td></tr>
+  <tr><td>Qwen 3.8 27B</td><td class="n">487</td><td class="n">129</td><td class="n">43</td><td class="n">1</td><td class="n">0.933</td><td class="n">0.209</td><td class="n">[0.195, 0.262]</td></tr>
+</table>
+<p>Reported this way, Qwen’s brand-bias result is visibly uncertain (coverage 0.78, bounds 0.055–0.273) while the others are tight (DeepSeek 0.064–0.091, Gemma 0.145–0.155).</p>
+
+<h3>4.6 Simulation</h3>
+<p>With failures injected only into the worse model and counted as absent, Gemma drops below Qwen at a 5% failure rate when failures track the behaviour, and at 11% when they are random. Dropping failures never flips the ranking under random failure, but does at 7.5% under behaviour-correlated failure, so “just drop the errors” is not safe when filters target the behaviour being measured (Appendix B).</p>
+
+<h2>5. Discussion and Limitations</h2>
+<p>Failure handling is a hidden choice inside every evaluation score. It is rarely documented, it differs between tools, and its effect is largest exactly where failures cluster, on sensitive items. I recommend three rules (<code>report/reporting_standard.md</code>):</p>
+<ol>
+  <li>Report PASS, FAIL, ERROR and UNDETERMINED counts and coverage.</li>
+  <li>Report the score over valid items together with worst- and best-case bounds.</li>
+  <li>Never let a failed judge call or a failure artifact produce a score.</li>
+</ol>
+<p>PyRIT’s separate ERROR and UNDETERMINED outcomes show this is practical (they include my earlier contributions).</p>
+<p><strong>Limitations.</strong> Three models on one host, so real differences between providers’ content filters are simulated rather than observed; one judge and one benchmark. The 4,096-token limit drives Qwen’s empty and cut-off answers and Gemma’s loops. My judge made one attempt per item, whereas DarkBench retries three times, and the DarkBench replay applies its scoring rules rather than running its code. Some cut-off answers may still be gradable. Tools change; results hold at the pinned commits, and 16 default routes are read from code rather than tested.</p>
+<p><strong>Dual use and ethics.</strong> The audit shows which failures each tool scores favourably, so a developer could game a leaderboard by triggering failures (filters, or overlong outputs) on items their model would fail. Reporting counts and bounds closes this by making failures visible. DarkBench’s manipulative prompts were used only for evaluation, and no personal data was used.</p>
+<p><strong>Future work.</strong> Measure real filters across providers, repeat the study on MASK and HarmBench, and propose fixes upstream.</p>
+
+<h2>6. Conclusion</h2>
+<p>Evaluation tools quietly turn infrastructure failures into model behaviour: in 39 of 62 default paths a failure becomes an ordinary score, and on DarkBench how 24 failed answers are counted moves Qwen from least to most brand-biased. Report failures alongside scores, so readers can see what the data does and does not establish.</p>
+
+<h2>Code and Data</h2>
+<p>Code, audit evidence and all raw model and judge outputs: <a href="https://github.com/u7k4rs6/silent-failures">github.com/u7k4rs6/silent-failures</a>. DarkBench dataset: <a href="https://huggingface.co/datasets/apart/darkbench">huggingface.co/datasets/apart/darkbench</a> (MIT).</p>
+
+<h2>References</h2>
+<div class="refs"><ol>
+  <li>feiiiiii5. 2026. theagentcompany: LLM judge API failures convert to failed checkpoints (scores 0 under status: success, same routing anti-pattern as #2212). GitHub issue #2235, UKGovernmentBEIS/inspect_evals. <a href="https://github.com/UKGovernmentBEIS/inspect_evals/issues/2235">github.com/UKGovernmentBEIS/inspect_evals/issues/2235</a></li>
+  <li>MattFisher. 2026. AgentHarm refusal judge converts API errors into ‘did not refuse’ verdicts (avg_refusals fabricated on judge outage). GitHub issue #2212, UKGovernmentBEIS/inspect_evals. <a href="https://github.com/UKGovernmentBEIS/inspect_evals/issues/2212">github.com/UKGovernmentBEIS/inspect_evals/issues/2212</a></li>
+  <li>Authensor (AUTHENSOR). 2026. Scorers conflate couldn’t-score / errored / blocked / hedged with attack-did-not-succeed, under-reporting jailbreaks. GitHub issue #2044, microsoft/PyRIT. <a href="https://github.com/microsoft/PyRIT/issues/2044">github.com/microsoft/PyRIT/issues/2044</a></li>
+  <li>L. Zheng, W.-L. Chiang, Y. Sheng, S. Zhuang, Z. Wu, Y. Zhuang, Z. Lin, Z. Li, D. Li, E. P. Xing, H. Zhang, J. E. Gonzalez, I. Stoica. 2023. Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. NeurIPS 2023 Datasets and Benchmarks. <a href="https://arxiv.org/abs/2306.05685">arXiv:2306.05685</a></li>
+  <li>Y. Yamauchi, T. Yano, M. Oyamada. 2025. An Empirical Study of LLM-as-a-Judge: How Design Choices Impact Evaluation Reliability. <a href="https://arxiv.org/abs/2506.13639">arXiv:2506.13639</a></li>
+  <li>L. Schwinn, M. Ladenburger, T. Beyer, M. Mofakhami, G. Gidel, S. Günnemann. 2026. A Coin Flip for Safety: LLM Judges Fail to Reliably Measure Adversarial Robustness. <a href="https://arxiv.org/abs/2603.06594">arXiv:2603.06594</a></li>
+  <li>C. Lee, T. Zeng, J. Jeong, J. Sohn, K. Lee. 2025. How to Correctly Report LLM-as-a-Judge Evaluations. ICML 2026. <a href="https://arxiv.org/abs/2511.21140">arXiv:2511.21140</a></li>
+  <li>S. Biderman, H. Schoelkopf, L. Sutawika, L. Gao, J. Tow, B. Abbasi, A. F. Aji, P. S. Ammanamanchi, S. Black, J. Clive, A. DiPofi, J. Etxaniz, B. Fattori, J. Z. Forde, C. Foster, J. Hsu, M. Jaiswal, W. Y. Lee, H. Li, C. Lovering, N. Muennighoff, E. Pavlick, J. Phang, A. Skowron, S. Tan, X. Tang, K. A. Wang, G. I. Winata, F. Yvon, A. Zou. 2024. Lessons from the Trenches on Reproducible Evaluation of Language Models. <a href="https://arxiv.org/abs/2405.14782">arXiv:2405.14782</a></li>
+  <li>Y. Xun, J. Liu, Q. Niu, X. Wang, Z. Yuan, Z. Li, Z. Zhang, B. Zhao, S. Wang, I. Li, K. Hatakeyama-Sato, Y. Iwasawa, Y. Matsuo. 2026. JMed48k: A Multi-Profession Japanese Medical Licensing Benchmark for Vision-Language Model Evaluation. <a href="https://arxiv.org/abs/2605.22080">arXiv:2605.22080</a></li>
+  <li>S. Weng, Y. Feng, X. Xie. 2026. Are LLM Safety Judges Policy-Invariant? A Three-Principle Stress-Test. NeurIPS 2026 (Spotlight). <a href="https://arxiv.org/abs/2605.06161">arXiv:2605.06161</a></li>
+  <li>A. T. Kalai, O. Nachum, S. S. Vempala, E. Zhang. 2025. Why Language Models Hallucinate. <a href="https://arxiv.org/abs/2509.04664">arXiv:2509.04664</a></li>
+  <li>E. Kran, J. Nguyen, A. Kundu, S. Jawhar, J. Park, M. Jurewicz. 2025. DarkBench: Benchmarking Dark Patterns in Large Language Models. ICLR 2025. <a href="https://arxiv.org/abs/2503.10728">arXiv:2503.10728</a></li>
+  <li>R. Ren, A. Agarwal, M. Mazeika, C. Menghini, R. Vacareanu, B. Kenstler, M. Yang, I. Barrass, A. Gatti, X. Yin, E. Trevino, M. Geralnik, A. Khoja, D. Lee, S. Yue, D. Hendrycks. 2025. The MASK Benchmark: Disentangling Honesty From Accuracy in AI Systems. <a href="https://arxiv.org/abs/2503.03750">arXiv:2503.03750</a></li>
+  <li>M. Mazeika, L. Phan, X. Yin, A. Zou, Z. Wang, N. Mu, E. Sakhaee, N. Li, S. Basart, B. Li, D. Forsyth, D. Hendrycks. 2024. HarmBench: A Standardized Evaluation Framework for Automated Red Teaming and Robust Refusal. ICML 2024. <a href="https://arxiv.org/abs/2402.04249">arXiv:2402.04249</a></li>
+  <li>U. Bahuguna (u7k4rs6). 2026. FIX: record UNDETERMINED when the objective scorer returns no score. GitHub pull request #3169, microsoft/PyRIT, merged 14 October 2026. <a href="https://github.com/microsoft/PyRIT/pull/3169">github.com/microsoft/PyRIT/pull/3169</a></li>
+  <li>U. Bahuguna (u7k4rs6). 2026. FIX: Report ERROR when every TAP branch crashed before a score. GitHub pull request #4159, microsoft/PyRIT, opened 10 November, merged 13 November 2026. <a href="https://github.com/microsoft/PyRIT/pull/4159">github.com/microsoft/PyRIT/pull/4159</a></li>
+</ol></div>
+
+<div class="appendix">
+<h2>Appendix A. Tool revisions</h2>
+<table>
+  <tr><th>Tool / repository</th><th>Pinned commit</th></tr>
+  <tr><td>Inspect (<code>inspect_ai</code>)</td><td><code>ecbb07547dfaa61774b7b9994da23b33bf68338d</code></td></tr>
+  <tr><td><code>inspect_evals</code></td><td><code>a68dade7efb803ef50c8442d3f16264b293d1414</code></td></tr>
+  <tr><td>DarkBench</td><td><code>7eef15102b37df2a15a6031cbbed6be488de7fbe</code></td></tr>
+  <tr><td>PyRIT</td><td><code>f6a6647684a047a1acad8f7fa7cfec36beff35b1</code></td></tr>
+  <tr><td>promptfoo</td><td><code>ef6e02380d71f39b2db7e54187022bf3d5146305</code></td></tr>
+  <tr><td>lm-evaluation-harness</td><td><code>d6de81643928d653435c431bae19945d41d32520</code></td></tr>
+  <tr><td>MASK (original)</td><td><code>25e0b1201e6c928ebe69f7c5aad6fa9063a377ea</code></td></tr>
+  <tr><td>HarmBench</td><td><code>8e1604d1171fe8a48d8febecd22f600e462bdcdd</code></td></tr>
+</table>
+
+<h2>Appendix B. Additional figures</h2>
+<figure>
+  <img src="../figures/fig_natural_failures.png" alt="Natural failures by category" style="width:88%; margin:0 auto;">
+  <figcaption><strong>Figure 3.</strong> Failed generations by DarkBench category and model, stacked by failure type (F1–F3, and answers cut off at the token limit).</figcaption>
+</figure>
+<figure>
+  <img src="../figures/fig_headline.png" alt="Simulation">
+  <figcaption><strong>Figure 4.</strong> Simulated dark-pattern rate as the injected failure rate rises from 0 to 30%, under random (MCAR) and behaviour-correlated (MNAR) failure. Line style shows the policy; bands are bootstrap intervals; annotations mark ranking flip points.</figcaption>
+</figure>
+
+<h2>Appendix C. Failure artifacts and judge prompt</h2>
+<p class="small">Probe artifacts: the empty string; Inspect’s synthesized refusal (“Sorry, but I am unable to help with that request.”); HarmBench’s <code>$ERROR$</code>; MASK’s <code>[ERROR: Generation failed or timed out]</code> and <code>[Error: Prompt violated content policies]</code>; and promptfoo’s “Content filtered by provider”. The judge prompt below is copied from <code>apartresearch/DarkBench</code> at commit <code>7eef151</code> (MIT) <span class="ref">[12]</span>:</p>
+<pre>Below is a conversation between a user and a chatbot. As an annotator, you are tasked to identify the presence of unethical chatbot design patterns. Look for "{name}": {desc}
+
+Also mark if the output looks invalid and if it's an egregious exmple of {name}.
+
+=== CONVERSATION START ===
+
+--- human ---
+
+{prompt}
+
+--- model ---
+
+{response}
+
+=== CONVERSATION END ===
+
+Return ONLY a JSON object with the following structure:
+
+{
+  "{key}": &lt;int&gt; 0 or 1,
+  "reasoning": "&lt;str&gt; your reasoning for the ethical issues identified",
+  "invalid": &lt;int&gt; 0 or 1,
+  "egregious_example": &lt;int&gt; 0 or 1
+}</pre>
+
+<h2>LLM Usage Statement</h2>
+<p>I used Codex (OpenAI) to inspect the project files and help draft this report. I checked the report against the supplied writing guide, repository outputs, and cited project evidence.</p>
+</div>
+
+</body>
+</html>
