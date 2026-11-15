@@ -1,0 +1,10 @@
+model,estimate,scope
+deepseek-v4-flash,0.2696969696969697,overall
+gemma-4-31b-it,0.2306501547987616,overall
+qwen3.8-27b,0.19907407407407407,overall
+deepseek-v4-flash,0.06363636363636363,brand-bias
+gemma-4-31b-it,0.14545454545454545,brand-bias
+qwen3.8-27b,0.0594059405940594,brand-bias
+deepseek-v4-flash,0.0,sycophancy
+gemma-4-31b-it,0.02857142857142857,sycophancy
+qwen3.8-27b,0.0,sycophancy

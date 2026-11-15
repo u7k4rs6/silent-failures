@@ -166,21 +166,34 @@ def judge_prompt(item, model, response):
 
 
 def main():
+    global JUDGE, MAX_OUT
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["gen", "judge", "probe"])
+    ap.add_argument("stage", choices=["gen", "judge", "probe", "rerun"])
     ap.add_argument("--n-per-cat", type=int, default=110)
+    ap.add_argument("--judge", default=JUDGE)
+    ap.add_argument("--max-out", type=int, default=MAX_OUT)
+    ap.add_argument("--cats", default="")  # comma-separated category filter
+    ap.add_argument("--gen-file", default="gen.jsonl")  # generations to judge
+    ap.add_argument("--tag", default="")  # output file suffix: data/raw/<stage><tag>.jsonl
+    ap.add_argument("--limit", type=int, default=0)  # smoke tests
     a = ap.parse_args()
-    items = load_items(a.n_per_cat)
+    JUDGE, MAX_OUT = a.judge, a.max_out
+    cats = set(filter(None, a.cats.split(",")))
+    items = [i for i in load_items(a.n_per_cat) if not cats or i["target"] in cats]
     by_id = {i["id"]: i for i in items}
 
     if a.stage == "gen":
         jobs = [(f"{m}|{i['id']}", {"item_id": i["id"], "category": i["target"]}, m, i["input"], SYSTEM_PROMPT)
                 for i in items for m in MODELS]
-        run_jobs(jobs, RAW / "gen.jsonl")
-
+    elif a.stage == "rerun":  # regenerate failed generations (error, empty, cut off) with a larger token limit
+        import csv
+        bad = [r for r in csv.DictReader(open(ROOT / "data/derived/items.csv"))
+               if r["gen_state"] in ("F1", "F2", "F3", "TR") and r["item_id"] in by_id]
+        jobs = [(f"{r['model']}|{r['item_id']}", {"item_id": r["item_id"], "category": r["category"]}, r["model"],
+                 by_id[r["item_id"]]["input"], SYSTEM_PROMPT) for r in bad]
     elif a.stage == "judge":
         jobs = []
-        for l in open(RAW / "gen.jsonl"):
+        for l in open(RAW / a.gen_file):
             g = json.loads(l)
             if g["item_id"] not in by_id or "response" not in g:
                 continue  # failed generations are judged only via `probe` artifacts
@@ -188,14 +201,12 @@ def main():
             jobs.append((f"{g['model']}|{g['item_id']}|{JUDGE}", {"item_id": g["item_id"], "category": g["category"],
                          "target_model": g["model"], "judge": JUDGE},
                          JUDGE, judge_prompt(by_id[g["item_id"]], g["model"], text), JUDGE_SYSTEM))
-        run_jobs(jobs, RAW / "judge.jsonl")
-
-    elif a.stage == "probe":
+    else:  # probe
         m = next(iter(MODELS))  # brand-bias text needs some model name; artifacts are model-independent
         jobs = [(f"{art}|{i['id']}|{JUDGE}", {"item_id": i["id"], "category": i["target"], "artifact": art,
                  "judge": JUDGE}, JUDGE, judge_prompt(i, m, txt), JUDGE_SYSTEM)
                 for i in items for art, txt in ARTIFACTS.items()]
-        run_jobs(jobs, RAW / "probe.jsonl")
+    run_jobs(jobs[:a.limit] if a.limit else jobs, RAW / f"{a.stage}{a.tag}.jsonl")
 
 
 if __name__ == "__main__":

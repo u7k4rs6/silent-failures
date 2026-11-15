@@ -7,8 +7,8 @@ When an AI eval breaks (a provider error, a content-filter block, an empty answe
 ## Key results
 
 - **Audit:** across 12 components of 7 tools (Inspect/inspect_evals, DarkBench, PyRIT, promptfoo, lm-evaluation-harness, MASK, HarmBench), in **39 of 62** default failure paths a failure silently becomes an ordinary score; only 6 record it as a separate outcome. For example, inspect_evals' MASK reports perfect honesty if every judge call fails. Evidence with file:line references: [`audit/audit_table_v2.csv`](audit/audit_table_v2.csv), [`figures/audit_matrix_wide.png`](figures/audit_matrix_wide.png).
-- **Judge on failure artifacts:** the judge scored **719 of 720** error messages, filter messages and empty answers as "no dark pattern".
-- **Real ranking flip (DarkBench, 3 models, no simulation):** 24 of Qwen 3.8 27B's 110 brand-bias answers failed (empty or cut off at the token limit). Under DarkBench's own scoring rules Qwen is the *least* brand-biased model (0.055); counting those failures as present makes it the *most* (0.273). See [`figures/fig_flip.png`](figures/fig_flip.png).
+- **Judges on failure artifacts:** three different judges scored error messages, filter messages and empty answers as "no dark pattern" in every parseable case (719/720, 229/229, 240/240).
+- **A ranking failures leave undetermined (DarkBench, 3 models, real data):** 24 of Qwen 3.8 27B's 110 brand-bias answers failed (empty or cut off at the token limit), so its rank ranges from tied-first (0.055 under DarkBench's own rules) to last (0.273). Re-running the failed prompts with a 16k-token limit resolved it: none of the 32 recovered Qwen answers showed the pattern (estimate 0.059). See [`figures/fig_flip.png`](figures/fig_flip.png) and [`data/derived/robustness.md`](data/derived/robustness.md).
 - **Reporting standard:** report PASS/FAIL/ERROR/UNDETERMINED counts and coverage, the score over valid items with worst/best-case bounds, and never score a failed judge call or failure artifact. Spec: [`report/reporting_standard.md`](report/reporting_standard.md); reference implementation: [`experiment/reporting.py`](experiment/reporting.py); applied to this run: [`figures/table_standard.md`](figures/table_standard.md).
 
 ## Repository layout
@@ -39,6 +39,8 @@ python experiment/run_eval.py probe --n-per-cat 20
 # 2. score, simulate and plot (no API calls)
 python experiment/score.py
 python experiment/fig_flip.py
+sh experiment/run_robustness.sh   # API calls: re-run failures with 16k tokens, two second judges
+python experiment/fig_flip.py      # again, to add the re-run estimates
 python experiment/apply_standard.py
 python experiment/make_figures.py
 python audit/make_matrix.py

@@ -35,6 +35,8 @@ def main():
     df = pd.read_csv(ROOT / "data/derived/items.csv")
     b = bounds(df)
     b.to_csv(ROOT / "data/derived/flip_bounds.csv", index=False)
+    est_path = ROOT / "data/derived/rerun_estimate.csv"  # written by robustness.py; optional
+    est = pd.read_csv(est_path).set_index(["scope", "model"]).estimate if est_path.exists() else None
 
     plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 9, "axes.edgecolor": MUTED, "axes.labelcolor": INK,
                          "xtick.color": MUTED, "ytick.color": INK})
@@ -48,6 +50,8 @@ def main():
             ax.plot([r.lower, r.upper], [y, y], "o", ms=4, color=c, zorder=3)
             ax.plot(r.dropped, y, marker="|", ms=9, mew=1.6, color=INK, zorder=4)
             ax.plot(r.darkbench, y, "o", ms=8, color=c, mec=INK, mew=1.0, zorder=5)
+            if est is not None:
+                ax.plot(est[(scope, m)], y, "*", ms=11, mfc="white", mec=INK, mew=1.0, zorder=6)
             ax.annotate(f"{int(r.fail)} failed", (r.upper, y), xytext=(6, 0), textcoords="offset points",
                         va="center", fontsize=7.5, color=MUTED)
         # rank under DarkBench's rules vs. under the upper bound (1 = least manipulative)
@@ -74,8 +78,10 @@ def main():
                Line2D([], [], marker="|", ls="", color=INK, ms=9, mew=1.6, label="failures dropped"),
                Line2D([], [], marker="o", ls="-", lw=2.2, alpha=0.6, color=MUTED, ms=4,
                       label="range: all failures absent ↔ all present")]
-    fig.legend(handles=handles, loc="lower center", ncol=3, frameon=False, fontsize=8, bbox_to_anchor=(0.5, -0.08))
-    fig.tight_layout(rect=(0, 0.06, 1, 1))
+    if est is not None:
+        handles.append(Line2D([], [], marker="*", ls="", mfc="white", mec=INK, ms=11, label="after re-running failures (16k tokens)"))
+    fig.legend(handles=handles, loc="lower center", ncol=2, frameon=False, fontsize=8, bbox_to_anchor=(0.5, -0.13))
+    fig.tight_layout(rect=(0, 0.1, 1, 1))
     for ext in ("png", "pdf"):
         fig.savefig(ROOT / f"figures/fig_flip.{ext}", dpi=300, bbox_inches="tight", facecolor="white")
     print(b.round(3).to_string(index=False))
