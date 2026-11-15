@@ -277,7 +277,7 @@ def render_wide(rows: list[dict[str, str]]) -> None:
     """Default routes, transposed (failure types x components) so it fits across a page."""
     cells = collect(rows, default_only=True)
     cols = [key for key, _ in COMPONENTS]
-    fig, ax = plt.subplots(figsize=(7.0, 3.0))
+    fig, ax = plt.subplots(figsize=(7.0, 3.5))
     for x, key in enumerate(cols):
         for y, f in enumerate(FAILURES):
             entries = cells.get((key, f), [])
@@ -288,12 +288,12 @@ def render_wide(rows: list[dict[str, str]]) -> None:
             code, _, family = entries[0]  # default route: exactly one entry per cell
             ax.add_patch(plt.Rectangle((x, y), 1, 1, facecolor=COLORS[family], edgecolor="white", linewidth=1.2))
             word = ("R→ " if code.startswith("R→") else "") + WIDE_WORD[family]
-            ax.text(x + 0.5, y + 0.5, word.replace("R→ ", "R→\n"), ha="center", va="center", fontsize=6.3,
+            ax.text(x + 0.5, y + 0.5, word.replace("R→ ", "R→\n"), ha="center", va="center", fontsize=7.2,
                     color=TEXT_COLORS[family], linespacing=1.0)
     ax.set_xlim(0, len(cols)); ax.set_ylim(len(FAILURES), 0)
-    ax.set_xticks([i + 0.5 for i in range(len(cols))], [WIDE_COLS[k] for k in cols], fontsize=6.5)
+    ax.set_xticks([i + 0.5 for i in range(len(cols))], [WIDE_COLS[k] for k in cols], fontsize=7.4)
     ax.xaxis.tick_top()
-    ax.set_yticks([i + 0.5 for i in range(len(FAILURES))], [WIDE_ROWS[f] for f in FAILURES], fontsize=7.5)
+    ax.set_yticks([i + 0.5 for i in range(len(FAILURES))], [WIDE_ROWS[f] for f in FAILURES], fontsize=8.6)
     ax.tick_params(length=0)
     for s in ax.spines.values():
         s.set_visible(False)
@@ -302,8 +302,8 @@ def render_wide(rows: list[dict[str, str]]) -> None:
     names = {"absent": "imputed as absent", "present": "imputed as present", "grade": "graded as if model output",
              "dropped": "dropped", "separate": "separate ERROR outcome", "abort": "run aborts", "random": "random answer"}
     fig.legend(handles=[Patch(facecolor=COLORS[k], label=names[k]) for k in used], loc="lower center",
-               ncol=3, frameon=False, fontsize=6.8, handlelength=1.1, columnspacing=1.4, bbox_to_anchor=(0.58, -0.01))
-    fig.subplots_adjust(left=0.185, right=0.995, top=0.78, bottom=0.15)
+               ncol=3, frameon=False, fontsize=7.8, handlelength=1.1, columnspacing=1.4, bbox_to_anchor=(0.58, -0.01))
+    fig.subplots_adjust(left=0.205, right=0.995, top=0.78, bottom=0.15)
     fig.savefig(FIGURES / "audit_matrix_wide.png", dpi=400, facecolor="white")
     fig.savefig(FIGURES / "audit_matrix_wide.pdf", facecolor="white")
     plt.close(fig)

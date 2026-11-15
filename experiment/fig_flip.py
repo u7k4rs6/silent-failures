@@ -15,7 +15,7 @@ from matplotlib.lines import Line2D
 ROOT = Path(__file__).resolve().parent.parent
 LABEL = {"deepseek-v4-flash": "DeepSeek V4 Flash", "gemma-4-31b-it": "Gemma 4 31B", "qwen3.8-27b": "Qwen 3.8 27B"}
 COLOR = {"deepseek-v4-flash": "#E69F00", "gemma-4-31b-it": "#56B4E9", "qwen3.8-27b": "#009E73"}  # same as make_figures.py
-PANELS = [("overall", "All 660 prompts"), ("brand-bias", "Brand bias (110 prompts)"), ("sycophancy", "Sycophancy (110 prompts)")]
+PANELS = [("overall", "All prompts (660)"), ("brand-bias", "Brand bias (110)"), ("sycophancy", "Sycophancy (110)")]
 INK, MUTED, GRID = "#1d2330", "#5b6475", "#e3e6ec"
 
 
@@ -38,9 +38,9 @@ def main():
     est_path = ROOT / "data/derived/rerun_estimate.csv"  # written by robustness.py; optional
     est = pd.read_csv(est_path).set_index(["scope", "model"]).estimate if est_path.exists() else None
 
-    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 9, "axes.edgecolor": MUTED, "axes.labelcolor": INK,
+    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10.5, "axes.edgecolor": MUTED, "axes.labelcolor": INK,
                          "xtick.color": MUTED, "ytick.color": INK})
-    fig, axes = plt.subplots(1, 3, figsize=(7.0, 2.45), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(7.0, 2.8), sharey=True)
     order = ["deepseek-v4-flash", "gemma-4-31b-it", "qwen3.8-27b"]
     for ax, (scope, title) in zip(axes, PANELS):
         d = b[b.scope == scope].set_index("model")
@@ -53,16 +53,18 @@ def main():
             if est is not None:
                 ax.plot(est[(scope, m)], y, "*", ms=11, mfc="white", mec=INK, mew=1.0, zorder=6)
             ax.annotate(f"{int(r.fail)} failed", (r.upper, y), xytext=(6, 0), textcoords="offset points",
-                        va="center", fontsize=7.5, color=MUTED)
+                        va="center", fontsize=8.8, color=MUTED)
         # rank under DarkBench's rules vs. under the upper bound (1 = least manipulative)
         rk_db, rk_up = d.darkbench.rank(method="min"), d.upper.rank(method="min")
         for y, m in enumerate(order):
             if rk_db[m] != rk_up[m] and d.loc[m, "upper"] - d.loc[m, "lower"] > 0.1:  # label only the large flips
-                for x, rk, col in ((d.loc[m, "darkbench"], rk_db[m], d.darkbench), (d.loc[m, "upper"], rk_up[m], d.upper)):
+                lo, up = d.loc[m, "darkbench"], d.loc[m, "upper"]
+                for x, rk, col, ha in ((lo, rk_db[m], d.darkbench, "left" if lo < 0.02 else "center"),
+                                       (up, rk_up[m], d.upper, "left" if up - lo < 0.17 else "center")):
                     tied = (col == x).sum() > 1
-                    ax.annotate(f"rank {int(rk)}" + (" (tie)" if tied else ""), (x, y), xytext=(0, -11),
-                                textcoords="offset points", ha="center", va="top", fontsize=7, color=INK, fontweight="bold")
-        ax.set_title(title, fontsize=9.5, color=INK, loc="left", pad=6)
+                    ax.annotate(f"rank {int(rk)}" + ("\n(tie)" if tied else ""), (x, y), xytext=(0, -11),
+                                textcoords="offset points", ha=ha, va="top", fontsize=8.5, color=INK, fontweight="bold")
+        ax.set_title(title, fontsize=11, color=INK, loc="left", pad=6)
         ax.set_ylim(-0.6, len(order) - 0.4)
         ax.set_xlim(0, 0.36)
         ax.set_xticks([0, 0.1, 0.2, 0.3])
@@ -80,7 +82,7 @@ def main():
                       label="range: all failures absent ↔ all present")]
     if est is not None:
         handles.append(Line2D([], [], marker="*", ls="", mfc="white", mec=INK, ms=11, label="after re-running failures (16k tokens)"))
-    fig.legend(handles=handles, loc="lower center", ncol=2, frameon=False, fontsize=8, bbox_to_anchor=(0.5, -0.13))
+    fig.legend(handles=handles, loc="lower center", ncol=2, frameon=False, fontsize=9.5, bbox_to_anchor=(0.5, -0.13))
     fig.tight_layout(rect=(0, 0.1, 1, 1))
     for ext in ("png", "pdf"):
         fig.savefig(ROOT / f"figures/fig_flip.{ext}", dpi=300, bbox_inches="tight", facecolor="white")
