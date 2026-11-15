@@ -288,10 +288,10 @@ def render_wide(rows: list[dict[str, str]]) -> None:
             code, _, family = entries[0]  # default route: exactly one entry per cell
             ax.add_patch(plt.Rectangle((x, y), 1, 1, facecolor=COLORS[family], edgecolor="white", linewidth=1.2))
             word = ("R→ " if code.startswith("R→") else "") + WIDE_WORD[family]
-            ax.text(x + 0.5, y + 0.5, word.replace("R→ ", "R→\n"), ha="center", va="center", fontsize=7.2,
+            ax.text(x + 0.5, y + 0.5, word.replace("R→ ", "R→\n"), ha="center", va="center", fontsize=6.9,
                     color=TEXT_COLORS[family], linespacing=1.0)
     ax.set_xlim(0, len(cols)); ax.set_ylim(len(FAILURES), 0)
-    ax.set_xticks([i + 0.5 for i in range(len(cols))], [WIDE_COLS[k] for k in cols], fontsize=7.4)
+    ax.set_xticks([i + 0.5 for i in range(len(cols))], [WIDE_COLS[k] for k in cols], fontsize=6.6)
     ax.xaxis.tick_top()
     ax.set_yticks([i + 0.5 for i in range(len(FAILURES))], [WIDE_ROWS[f] for f in FAILURES], fontsize=8.6)
     ax.tick_params(length=0)

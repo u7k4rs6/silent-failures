@@ -68,7 +68,7 @@
 
 <div class="title">
   <h1>Silent Failures: How Eval Harnesses Turn<br>Infrastructure Errors into Model Behaviour</h1>
-  <div class="meta"><strong>Utkarsh Bahuguna</strong><br>Independent<br><em>With Apart Research</em><br>Version 1.0 · 16 November 2026</div>
+  <div class="meta"><strong>Utkarsh Bahuguna</strong><br>Independent<br><em>With Apart Research</em><br>Version 1.1 · 16 November 2026</div>
   <div class="note">Research conducted at the AI x Epistemics Research Sprint (Apart Research), November 2026.</div>
 </div>
 
@@ -187,7 +187,7 @@
 <p>Evaluation tools quietly turn infrastructure failures into model behaviour: in 39 of 62 default paths a failure becomes an ordinary score, and three judges grade failure artifacts as clean. On DarkBench, 24 failed answers left Qwen’s brand-bias rank undetermined; re-running them resolved it, but only because I knew to look. Report failures alongside scores, so readers can see what the data does and does not establish.</p>
 
 <h2>Code and Data</h2>
-<p>Code, audit evidence and all raw model and judge outputs: <a href="https://github.com/u7k4rs6/silent-failures">github.com/u7k4rs6/silent-failures</a>. This report corresponds to release <a href="https://github.com/u7k4rs6/silent-failures/releases/tag/v1.0">v1.0</a>. DarkBench dataset: <a href="https://huggingface.co/datasets/apart/darkbench">huggingface.co/datasets/apart/darkbench</a> (MIT).</p>
+<p>Code, audit evidence and all raw model and judge outputs: <a href="https://github.com/u7k4rs6/silent-failures">github.com/u7k4rs6/silent-failures</a>. This report corresponds to release <a href="https://github.com/u7k4rs6/silent-failures/releases/tag/v1.1">v1.1</a>. DarkBench dataset: <a href="https://huggingface.co/datasets/apart/darkbench">huggingface.co/datasets/apart/darkbench</a> (MIT).</p>
 <p><strong>Reproducibility.</strong> All runs used the Adaption Labs Responses API (Python SDK <code>adaption</code> 0.19.0) on 15 November 2026 (main run 07:24–09:41 UTC; re-run and second judges from 14:53 UTC), with models <code>gemma-4-31b-it</code>, <code>qwen3.8-27b</code> and <code>deepseek-v4-flash</code>; judges <code>glm-5.2</code>, <code>qwen3.5-397b</code> and <code>gemma-4-26b-a4b-it</code>; temperature 0; 4,096 output tokens (16,384 for the re-run); seed 0 for sampling and simulation. Hosted models can change, so every API call is logged in <code>data/raw/</code> as one JSON line with the response, status, token counts and any error, and <code>experiment/score.py</code> and <code>experiment/robustness.py</code> recompute every number in this report from those files without API calls.</p>
 
 <h2>References</h2>
