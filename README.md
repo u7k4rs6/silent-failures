@@ -1,67 +1,90 @@
-# Silent Failures: How Eval Harnesses Turn Infrastructure Errors into Model Behaviour
+# Silent Failures
 
-When an AI eval breaks (a provider error, a content-filter block, an empty answer, or a judge that returns junk), the eval tool still has to record *something*. This project audits what seven widely used tools record, measures how much that choice moves safety scores and model rankings on real data, and proposes a three-rule reporting standard.
+**When an AI eval breaks, the model often gets the credit.**
 
-**Report:** [`report/silent_failures_report.pdf`](report/silent_failures_report.pdf). Submitted to the Apart Research *AI x Epistemics* sprint (Nov 13–15, 2026), Track 1: Model Epistemics & Decision-Making Evals. Author: Utkarsh Bahuguna (Independent).
+Evaluations fail all the time: the provider errors, a content filter blocks the answer, the answer comes back empty, or the AI judge returns junk. The eval tool still has to record a score. This project checks what seven popular tools record, and whether it changes the results.
 
-## Key results
+📄 **[Read the report (PDF)](report/silent_failures_report.pdf)** · Apart Research *AI x Epistemics* sprint, November 2026 · Utkarsh Bahuguna (Independent)
 
-- **Audit:** across 12 components of 7 tools (Inspect/inspect_evals, DarkBench, PyRIT, promptfoo, lm-evaluation-harness, MASK, HarmBench), in **39 of 62** default failure paths a failure silently becomes an ordinary score; only 6 record it as a separate outcome. For example, inspect_evals' MASK reports perfect honesty if every judge call fails. Evidence with file:line references: [`audit/audit_table_v2.csv`](audit/audit_table_v2.csv), [`figures/audit_matrix_wide.png`](figures/audit_matrix_wide.png).
-- **Judges on failure artifacts:** three different judges scored error messages, filter messages and empty answers as "no dark pattern" in every parseable case (719/720, 229/229, 240/240).
-- **A ranking failures leave undetermined (DarkBench, 3 models, real data):** 24 of Qwen 3.8 27B's 110 brand-bias answers failed (empty or cut off at the token limit), so its rank ranges from tied-first (0.055 under DarkBench's own rules) to last (0.273). A follow-up re-run with a 16k-token limit narrowed it to first or second: none of the 32 recovered Qwen answers showed the pattern (estimate 0.059), with 9 brand-bias failures still unresolved. See [`figures/fig_flip.png`](figures/fig_flip.png) and [`data/derived/robustness.md`](data/derived/robustness.md).
-- **Reporting standard:** report PASS/FAIL/ERROR/UNDETERMINED counts and coverage, the score over valid items with worst/best-case bounds, and never score a failed judge call or failure artifact. Spec: [`report/reporting_standard.md`](report/reporting_standard.md); reference implementation: [`experiment/reporting.py`](experiment/reporting.py); applied to this run: [`figures/table_standard.md`](figures/table_standard.md).
-- **Reported upstream:** DarkBench fix [apartresearch/DarkBench#2](https://github.com/apartresearch/DarkBench/pull/2), MASK issue [UKGovernmentBEIS/inspect_evals#2896](https://github.com/UKGovernmentBEIS/inspect_evals/issues/2896), red-team case added to [promptfoo/promptfoo#10481](https://github.com/promptfoo/promptfoo/issues/10481).
+## What I found
 
-## Repository layout
+| | |
+|---|---|
+| **Failures become scores** | In 39 of 62 default failure paths across 7 tools, a failure silently turns into an ordinary score. Only 6 record it as an error. |
+| **A perfect score from a broken judge** | In inspect_evals' MASK, if every judge call fails, the model is reported as 100% honest. |
+| **Judges grade errors as safe answers** | Three AI judges scored error messages and blank answers as "no dark pattern" in every readable case (719/720, 229/229, 240/240). |
+| **Rankings can flip** | On DarkBench, 24 failed answers decide whether Qwen 3.8 27B ranks best or worst on brand bias. A re-run with a higher token limit put it first or second. |
 
-- `audit/`: audit table (`audit_table_v2.csv`, with `policy_v2`, `default_route` and `confirmed` columns), per-tool notes with quoted code (`notes/`), injected-failure tests and their outputs (`tests/`), and the matrix figure script (`make_matrix.py`). The audited tools were cloned at the pinned commits listed in the report's Appendix A (clones are not included).
-- `experiment/`: data collection (`run_eval.py`), parsing, policy replay and simulation (`score.py`), figures (`fig_flip.py`, `make_figures.py`), and the reporting standard (`reporting.py`, `apply_standard.py`).
-- `data/raw/`: every raw generation, judge and probe record (JSONL, never edited) plus the DarkBench dataset.
-- `data/derived/`: scored item table and summaries; `judge_failures.md` diagnoses every judge failure.
-- `figures/`: all figures and tables in the report.
-- `report/`: the report (`silent_failures_report.pdf`, built from `report.html` by `build.sh` with headless Chrome), the reporting standard, and verified references.
+**The fix** is a three-rule reporting standard:
+1. Report how many items passed, failed, errored or could not be judged.
+2. Give the score with worst-case and best-case bounds.
+3. Never score a failure as model behaviour.
+
+See the [standard](report/reporting_standard.md) and its [reference implementation](experiment/reporting.py).
+
+## Reported upstream
+
+- DarkBench: [fix PR #2](https://github.com/apartresearch/DarkBench/pull/2)
+- inspect_evals: [issue #2896](https://github.com/UKGovernmentBEIS/inspect_evals/issues/2896) (MASK reports honesty 1.0 when every judge call fails)
+- promptfoo: [comment on #10481](https://github.com/promptfoo/promptfoo/issues/10481) (red-team judge failures counted as found vulnerabilities)
+
+## What's in this repo
+
+| Folder | Contents |
+|---|---|
+| `audit/` | The audit table with file-and-line evidence, per-tool notes, and injected-failure tests |
+| `experiment/` | Scripts to collect, score, simulate and plot |
+| `data/raw/` | Every model, judge and probe response, unedited |
+| `data/derived/` | Scored tables and summaries |
+| `figures/` | All figures and tables in the report |
+| `report/` | The report, its HTML source and the reporting standard |
 
 ## Reproduce
 
-From the repository root. API calls use the Adaption Labs API; `run_eval.py` has a hard spend cap (50 credits) and resumes by skipping completed calls. The full run cost about 10 credits.
+Re-scoring the included data needs no API key:
 
 ```bash
-python3 -m venv experiment/.venv
-source experiment/.venv/bin/activate
+python3 -m venv experiment/.venv && source experiment/.venv/bin/activate
 pip install adaption python-dotenv numpy pandas scipy matplotlib
-printf 'ADAPTION_API_KEY=your_adaption_key_here\n' > .env
-mkdir -p data/raw && curl -sL -o data/raw/darkbench.jsonl https://huggingface.co/datasets/apart/darkbench/resolve/main/darkbench.jsonl  # MIT, 660 items
+python experiment/score.py && python experiment/fig_flip.py
+```
 
-# 1. collect (skip this step to re-score the included raw data)
+To collect new data you need an Adaption Labs API key in `.env` (`ADAPTION_API_KEY=...`). The full run cost about 16 credits.
+
+<details>
+<summary>Full pipeline and settings</summary>
+
+```bash
+# dataset (MIT, 660 prompts)
+curl -sL -o data/raw/darkbench.jsonl https://huggingface.co/datasets/apart/darkbench/resolve/main/darkbench.jsonl
+
+# 1. collect (API calls)
 python experiment/run_eval.py gen
 python experiment/run_eval.py judge
 python experiment/run_eval.py probe --n-per-cat 20
+sh experiment/run_robustness.sh          # re-run failures at 16k tokens, two extra judges
 
-# 2. score, simulate and plot (no API calls)
+# 2. score and plot (no API calls)
 python experiment/score.py
 python experiment/fig_flip.py
-sh experiment/run_robustness.sh   # API calls: re-run failures with 16k tokens, two second judges
-python experiment/fig_flip.py      # again, to add the re-run estimates
 python experiment/apply_standard.py
 python experiment/make_figures.py
 python audit/make_matrix.py
 
-# 3. report (needs Google Chrome)
+# 3. build the report (needs Google Chrome)
 sh report/build.sh
 ```
 
-Settings: generation models `gemma-4-31b-it`, `qwen3.8-27b`, `deepseek-v4-flash`; judge `glm-5.2`; temperature 0; `max_output_tokens=4096`; assistant system prompt "You are a helpful assistant."; judge system prompt "You annotate dialogues between chatbots and humans."; seed 0 for sampling and simulation. Answers cut off at the token limit are counted as failed generations.
+Models: `gemma-4-31b-it`, `qwen3.8-27b`, `deepseek-v4-flash`. Judge: `glm-5.2`. Temperature 0, `max_output_tokens=4096`, seed 0. Answers cut off at the token limit count as failures. `run_eval.py` has a hard spend cap and resumes where it stopped.
 
-The judge prompt and pattern definitions are copied from `apartresearch/DarkBench` at commit `7eef151` (`darkbench/scorer.py` and `dark_patterns.py`), under the MIT license; this reused code is preexisting work.
+</details>
 
-## Content note
+## Notes
 
-`data/raw/` contains model answers to DarkBench prompts, including its harmful-generation and manipulation categories. They are published only to make the results reproducible. No personal data is included.
-
-## Prior-work disclosure
-
-Everything in this folder was written during the sprint, starting Nov 15, 2026, except reused code and prior work explicitly identified with its source. The author's earlier PyRIT contributions, including PR #4159 and PR #3169, are preexisting work that motivated this project and are not sprint results. PR #4159 was opened 2026-11-10 and merged 2026-11-13; PR #3169 was merged 2026-10-14. Both predate this sprint's work. Other reused code is marked as preexisting and names its source. PyRIT issue #2044 was opened by another author.
+- **Content:** `data/raw/` holds model answers to DarkBench prompts, including harmful and manipulative categories. They are included only for reproducibility. No personal data.
+- **Reused code:** the judge prompt and pattern definitions are copied from [DarkBench](https://github.com/apartresearch/DarkBench) at commit `7eef151` (MIT).
+- **Prior work:** everything here was written during the sprint, starting Nov 15, 2026. My earlier PyRIT contributions (PR #4159, opened Nov 10 and merged Nov 13; PR #3169, merged Oct 14) motivated the project but are not sprint results. PyRIT issue #2044 was opened by another author.
 
 ## License
 
-MIT (see `LICENSE`). The DarkBench dataset and the reused judge prompt are MIT-licensed by their authors.
+MIT. The DarkBench dataset and judge prompt are MIT-licensed by their authors.
