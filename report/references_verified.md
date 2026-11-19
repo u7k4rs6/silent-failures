@@ -26,7 +26,7 @@ Checked against the linked arXiv, OpenReview, PMLR, and GitHub pages on 2026-11-
 - **Evidence:** “A run whose refusal judge never successfully executed reports `avg_refusals: 0.0` with `status: success`.”
 - **Source:** https://github.com/UKGovernmentBEIS/inspect_evals/issues/2212
 
-### 2. JMed48k — arXiv:2605.22080
+### 2. JMed48k: arXiv:2605.22080
 
 - **Status:** VERIFIED
 - **Title:** “JMed48k: A Multi-Profession Japanese Medical Licensing Benchmark for Vision-Language Model Evaluation”
@@ -36,7 +36,7 @@ Checked against the linked arXiv, OpenReview, PMLR, and GitHub pages on 2026-11-
 - **Evidence:** “We treat non-answer responses uniformly as incorrect predictions. This conservative policy keeps denominators fixed across models and prevents systems from improving apparent accuracy by abstaining on difficult items.” The next lines state that calibrated refusals and parse failures are retained in the denominator and scored incorrect.
 - **Source:** https://arxiv.org/html/2605.22080
 
-### 3. Safety-judge paper — arXiv:2605.06161
+### 3. Safety-judge paper: arXiv:2605.06161
 
 - **Status:** VERIFIED
 - **Title:** “Are LLM Safety Judges Policy-Invariant? A Three-Principle Stress-Test”
@@ -46,7 +46,7 @@ Checked against the linked arXiv, OpenReview, PMLR, and GitHub pages on 2026-11-
 - **Evidence:** “Gemini-Flash returns malformed JSON on 55 of its 300 items in at least one arm, which leaves the flip indicator undefined on those items.” The paper reports both a “Conditional, lower bound” and a “Worst-case, upper bound,” treating parse failures as missing data versus flips.
 - **Source:** https://arxiv.org/html/2605.06161
 
-### 4. Bias-corrected LLM-as-judge reporting — arXiv:2511.21140
+### 4. Bias-corrected LLM-as-judge reporting: arXiv:2511.21140
 
 - **Status:** VERIFIED
 - **Title:** “How to Correctly Report LLM-as-a-Judge Evaluations”
@@ -56,7 +56,7 @@ Checked against the linked arXiv, OpenReview, PMLR, and GitHub pages on 2026-11-
 - **Evidence:** “Imperfect sensitivity and specificity of the LLM judges induce bias in naive evaluation scores. We propose a simple plug-in framework that corrects this bias and enables statistically principled uncertainty quantification.”
 - **Source:** https://arxiv.org/abs/2511.21140
 
-### 5. “A Coin Flip for Safety” — arXiv:2603.06594
+### 5. “A Coin Flip for Safety”: arXiv:2603.06594
 
 - **Status:** VERIFIED
 - **Title:** “A Coin Flip for Safety: LLM Judges Fail to Reliably Measure Adversarial Robustness”
@@ -76,14 +76,14 @@ Checked against the linked arXiv, OpenReview, PMLR, and GitHub pages on 2026-11-
 - **Evidence:** “We argue that language models hallucinate because the training and evaluation procedures reward guessing over acknowledging uncertainty.” The abstract further says “guessing when uncertain improves test performance,” supporting the binary-grading incentive claim.
 - **Source:** https://arxiv.org/abs/2509.04664
 
-### 7. DarkBench — arXiv:2503.10728
+### 7. DarkBench: arXiv:2503.10728
 
 - **Status:** VERIFIED (paper identity, author list, and ICLR 2025 venue)
 - **Title:** “DarkBench: Benchmarking Dark Patterns in Large Language Models”
 - **Authors:** Esben Kran, Jord Nguyen, Akash Kundu, Sami Jawhar, Jinsuk Park, Mateusz Jurewicz
 - **Year:** 2025
 - **Venue / identifier:** ICLR 2025; arXiv:2503.10728
-- **Evidence:** The ICLR paper states: “We introduce DarkBench, a comprehensive benchmark for detecting dark design patterns—manipulative techniques that influence user behavior—in interactions with large language models (LLMs).”
+- **Evidence:** The ICLR paper states: “We introduce DarkBench, a comprehensive benchmark for detecting dark design patterns - manipulative techniques that influence user behavior - in interactions with large language models (LLMs).”
 - **Source:** https://openreview.net/attachment?id=odjMSBSWRt&name=pdf
 
 ### 8. MASK benchmark
@@ -96,7 +96,7 @@ Checked against the linked arXiv, OpenReview, PMLR, and GitHub pages on 2026-11-
 - **Evidence:** The abstract introduces “a large-scale human-collected dataset for directly measuring lying, allowing us to disentangle accuracy from honesty.”
 - **Source:** https://arxiv.org/abs/2503.03750
 
-### 9. HarmBench — Mazeika et al.
+### 9. HarmBench: Mazeika et al.
 
 - **Status:** VERIFIED
 - **Title:** “HarmBench: A Standardized Evaluation Framework for Automated Red Teaming and Robust Refusal”

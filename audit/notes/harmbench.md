@@ -1,4 +1,4 @@
-# HarmBench — failure handling audit
+# HarmBench: failure handling audit
 
 - Repo: https://github.com/centerforaisafety/HarmBench, commit `8e1604d1171fe8a48d8febecd22f600e462bdcdd` (clone: `audit/repos/harmbench`)
 - Pipeline: `generate_completions.py` (API wrappers in `api_models.py`, or local vLLM/HF) -> completions JSON -> `evaluate_completions.py` (local vLLM classifier `cais/HarmBench-Llama-2-13b-cls`, 1 token) -> per-item `label`, ASR.

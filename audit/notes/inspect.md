@@ -1,4 +1,4 @@
-# Inspect (inspect_ai + inspect_evals) — failure-routing audit
+# Inspect (inspect_ai + inspect_evals): failure-routing audit
 
 - inspect_ai `ecbb07547dfaa61774b7b9994da23b33bf68338d` (main, 2026-11-14). Tests ran on PyPI `inspect_ai==0.3.290`; diffed against the clone: `scorer/_model.py`, `scorer/_metric.py`, `_eval/task/results.py`, `_eval/task/error.py`, `model/_openai.py`, `mockllm.py` identical; `model/_model.py` differs only in one tool-schema serialization line.
 - inspect_evals `a68dade7efb803ef50c8442d3f16264b293d1414`. Tests ran on PyPI `inspect_evals==0.29.0` (`--no-deps`); the agentharm, strong_reject and mask files listed below are identical to the clone.

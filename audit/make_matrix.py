@@ -136,7 +136,7 @@ def write_markdown(rows: list[dict[str, str]]) -> None:
     lines = [
         "# Harness failure-handling matrix (split routes)",
         "",
-        "Cells show all audited routes from `policy_v2`. `R→` means retry before the displayed policy; multiple codes denote split routes. `—` means not audited.",
+        "Cells show all audited routes from `policy_v2`. `R→` means retry before the displayed policy; multiple codes denote split routes. `n/a` means not audited.",
         "",
         "| Harness component | " + " | ".join(FAILURES) + " |",
         "|---|" + "---:|" * len(FAILURES),
@@ -145,7 +145,7 @@ def write_markdown(rows: list[dict[str, str]]) -> None:
         values = []
         for failure in FAILURES:
             entries = cells.get((key, failure), [])
-            values.append(" / ".join(f"`{code}`" for code, _, _ in entries) if entries else "—")
+            values.append(" / ".join(f"`{code}`" for code, _, _ in entries) if entries else "n/a")
         lines.append("| " + label + " | " + " | ".join(values) + " |")
     lines.extend([
         "",
@@ -210,7 +210,7 @@ def render(rows: list[dict[str, str]], *, default_only: bool) -> None:
             entries = cells.get((key, failure), [])
             if not entries:
                 ax.add_patch(plt.Rectangle((x, row_start), 1, row_height, facecolor="#F3F3F3", edgecolor="white", linewidth=0.65))
-                ax.text(x + 0.5, row_start + row_height / 2, "—", ha="center", va="center", color="#666666", fontsize=5 if default_only else 9)
+                ax.text(x + 0.5, row_start + row_height / 2, "n/a", ha="center", va="center", color="#666666", fontsize=5 if default_only else 9)
                 continue
             n = len(entries)
             for j, (_, full, family) in enumerate(entries):
@@ -283,7 +283,7 @@ def render_wide(rows: list[dict[str, str]]) -> None:
             entries = cells.get((key, f), [])
             if not entries:
                 ax.add_patch(plt.Rectangle((x, y), 1, 1, facecolor="#F3F3F3", edgecolor="white", linewidth=1.2))
-                ax.text(x + 0.5, y + 0.5, "—", ha="center", va="center", fontsize=7, color="#9A9A9A")
+                ax.text(x + 0.5, y + 0.5, "n/a", ha="center", va="center", fontsize=7, color="#9A9A9A")
                 continue
             code, _, family = entries[0]  # default route: exactly one entry per cell
             ax.add_patch(plt.Rectangle((x, y), 1, 1, facecolor=COLORS[family], edgecolor="white", linewidth=1.2))

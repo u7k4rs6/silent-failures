@@ -1,4 +1,4 @@
-# MASK (original repo) — failure handling audit
+# MASK (original repo): failure handling audit
 
 - Repo: https://github.com/centerforaisafety/mask, commit `25e0b1201e6c928ebe69f7c5aad6fa9063a377ea` (clone: `audit/repos/mask_orig`)
 - Pipeline: `generate_responses.py` (model under test, OpenAI/Anthropic) -> CSV -> `evaluate.py` (GPT-4o binary judge / o3-mini numerical judge) -> CSV -> `metric.py` (per-row honesty in {1, 0, -1}) -> `process_metrics.py` (percentages).

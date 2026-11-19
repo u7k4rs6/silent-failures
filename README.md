@@ -14,12 +14,12 @@ When an AI eval breaks (a provider error, a content-filter block, an empty answe
 
 ## Repository layout
 
-- `audit/` — audit table (`audit_table_v2.csv`, with `policy_v2`, `default_route` and `confirmed` columns), per-tool notes with quoted code (`notes/`), injected-failure tests and their outputs (`tests/`), and the matrix figure script (`make_matrix.py`). The audited tools were cloned at the pinned commits listed in the report's Appendix A (clones are not included).
-- `experiment/` — data collection (`run_eval.py`), parsing, policy replay and simulation (`score.py`), figures (`fig_flip.py`, `make_figures.py`), and the reporting standard (`reporting.py`, `apply_standard.py`).
-- `data/raw/` — every raw generation, judge and probe record (JSONL, never edited) plus the DarkBench dataset.
-- `data/derived/` — scored item table and summaries; `judge_failures.md` diagnoses every judge failure.
-- `figures/` — all figures and tables in the report.
-- `report/` — the report (`silent_failures_report.pdf`, built from `report.html` by `build.sh` with headless Chrome), the reporting standard, and verified references.
+- `audit/`: audit table (`audit_table_v2.csv`, with `policy_v2`, `default_route` and `confirmed` columns), per-tool notes with quoted code (`notes/`), injected-failure tests and their outputs (`tests/`), and the matrix figure script (`make_matrix.py`). The audited tools were cloned at the pinned commits listed in the report's Appendix A (clones are not included).
+- `experiment/`: data collection (`run_eval.py`), parsing, policy replay and simulation (`score.py`), figures (`fig_flip.py`, `make_figures.py`), and the reporting standard (`reporting.py`, `apply_standard.py`).
+- `data/raw/`: every raw generation, judge and probe record (JSONL, never edited) plus the DarkBench dataset.
+- `data/derived/`: scored item table and summaries; `judge_failures.md` diagnoses every judge failure.
+- `figures/`: all figures and tables in the report.
+- `report/`: the report (`silent_failures_report.pdf`, built from `report.html` by `build.sh` with headless Chrome), the reporting standard, and verified references.
 
 ## Reproduce
 

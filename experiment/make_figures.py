@@ -96,7 +96,7 @@ def plot_headline(injection: pd.DataFrame, flips: pd.DataFrame) -> None:
                     color=colors[model],
                     linestyle=POLICY_STYLES.get(policy, "-"),
                     linewidth=1.45,
-                    label=f"{short_model(model)} — {policy}",
+                    label=f"{short_model(model)}: {policy}",
                     zorder=3,
                 )
                 band = np.isfinite(lo) & np.isfinite(hi)
@@ -193,7 +193,7 @@ def plot_natural_failures(items: pd.DataFrame) -> None:
                     edgecolor="#333333",
                     linewidth=0.35,
                     hatch=FAILURE_HATCHES[state],
-                    label=f"{short_model(model)} — {state}",
+                    label=f"{short_model(model)}: {state}",
                 )
                 bottom += heights
         ax.set_xticks(positions, categories, rotation=25, ha="right")
@@ -220,16 +220,16 @@ def fmt(value: object) -> str:
     try:
         number = float(value)
     except (TypeError, ValueError):
-        return "—"
-    return f"{number:.3f}" if math.isfinite(number) else "—"
+        return "n/a"
+    return f"{number:.3f}" if math.isfinite(number) else "n/a"
 
 
 def fmt_int(value: object) -> str:
     try:
         number = float(value)
     except (TypeError, ValueError):
-        return "—"
-    return str(int(number)) if math.isfinite(number) else "—"
+        return "n/a"
+    return str(int(number)) if math.isfinite(number) else "n/a"
 
 
 def markdown_table(headers: list[str], rows: list[list[str]]) -> str:
