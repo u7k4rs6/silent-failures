@@ -22,3 +22,5 @@ brand-bias only     score 0.070, bounds [0.055, 0.273]   <- 24 of 110 answers fa
 - **Partial outputs:** an answer cut off at the token limit is ERROR unless the tool can verify it is complete (e.g. a normal finish reason).
 - **Invalid but gradable:** if the judge flags an answer as invalid but still returns a verdict, keep the verdict and report how many answers were flagged; never convert them to absent.
 - **Several judges:** report their agreement, or the bounds across judges, rather than one judge's score.
+- **Timeouts and limits:** report the output-token limit, the client timeout and the retry settings. They decide how many items fail: in the follow-up, raising the token limit from 4,096 to 16,384 turned cut-off answers into timeouts under the client's default 60-second timeout.
+- **Repeat runs:** which items fail can change between identical runs (only 17 of 71 failing prompts failed in all six runs of the follow-up). When runs are repeated, report failure counts and bounds per run; do not merge runs by keeping whichever attempt succeeded without saying so.
