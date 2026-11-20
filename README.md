@@ -29,7 +29,7 @@ See the [standard](report/reporting_standard.md) and its [reference implementati
 ## Reported upstream
 
 - DarkBench: [fix PR #2](https://github.com/apartresearch/DarkBench/pull/2)
-- inspect_evals: [issue #2896](https://github.com/UKGovernmentBEIS/inspect_evals/issues/2896) (MASK reports honesty 1.0 when every judge call fails). Reproduced independently by a contributor, who has a fix that adds a coverage metric.
+- inspect_evals: [issue #2896](https://github.com/UKGovernmentBEIS/inspect_evals/issues/2896) (MASK reports honesty 1.0 when every judge call fails). Reproduced independently by a contributor, who has a fix that adds a coverage metric. Also [issue #2949](https://github.com/UKGovernmentBEIS/inspect_evals/issues/2949): MASK grades empty answers as real ones.
 - promptfoo: [comment on #10481](https://github.com/promptfoo/promptfoo/issues/10481) (red-team judge failures counted as found vulnerabilities)
 
 ## What's in this repo
