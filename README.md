@@ -6,7 +6,7 @@ Evaluations fail all the time: the provider errors, a content filter blocks the 
 
 📄 **[Read the report (PDF)](report/silent_failures_report.pdf)** · 🖼️ [Slides (PDF)](report/silent_failures_slides.pdf) · Apart Research *AI x Epistemics* sprint, November 2026 · Utkarsh Bahuguna (Independent)
 
-This is version 2, which adds a follow-up run made after the sprint. The version submitted to the sprint is [release v1.4](https://github.com/u7k4rs6/silent-failures/releases/tag/v1.4).
+This is version 2, which adds follow-up runs made after the sprint, including a MASK study. The version submitted to the sprint is [release v1.4](https://github.com/u7k4rs6/silent-failures/releases/tag/v1.4).
 
 ## What I found
 
@@ -17,6 +17,7 @@ This is version 2, which adds a follow-up run made after the sprint. The version
 | **Judges grade errors as safe answers** | Three AI judges scored error messages and blank answers as "no dark pattern" in every readable case (719/720, 229/229, 240/240). |
 | **Rankings can flip** | On DarkBench, 24 failed answers decide whether Qwen 3.8 27B ranks best or worst on brand bias. A re-run with a higher token limit put it first or second. |
 | **It holds at scale** | Follow-up with 6 models and a 16k-token limit: failures turned from cut-offs into timeouts instead of disappearing, and 14 of 105 model pairs could still swap order. In 5 identical repeat runs the headline result came back every time, but the failing prompts changed. |
+| **A second benchmark: MASK** | Run with its own inspect_evals code, MASK's default 1,000-token answer limit left 114 of Qwen's 200 answers empty. The judge still graded them, even inventing lies for answers never given, and Qwen's accuracy went from 0.45 to 0.66 once it had room to answer. |
 
 **The fix** is a three-rule reporting standard:
 1. Report how many items passed, failed, errored or could not be judged.
@@ -52,7 +53,7 @@ pip install adaption python-dotenv numpy pandas scipy matplotlib
 python experiment/score.py && python experiment/fig_flip.py
 ```
 
-To collect new data you need an Adaption Labs API key in `.env` (`ADAPTION_API_KEY=...`). The sprint runs cost about 16 credits and the follow-up about 26.
+To collect new data you need an Adaption Labs API key in `.env` (`ADAPTION_API_KEY=...`). The sprint runs cost about 16 credits, the follow-up about 26 and the MASK study a few more.
 
 <details>
 <summary>Full pipeline and settings</summary>
@@ -74,6 +75,7 @@ python experiment/fig_flip.py
 python experiment/apply_standard.py
 python experiment/make_figures.py
 python experiment/followup.py && python experiment/fig_followup.py
+sh experiment/run_mask_all.sh && sh experiment/run_mask_followup.sh   # MASK study (needs the inspect venv, see the script)
 python audit/make_matrix.py
 
 # 3. build the report (needs Google Chrome)

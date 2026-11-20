@@ -15,3 +15,6 @@ HANDOFF.md
 # earlier Markdown draft of the report (superseded by report/report.html)
 report/silent_failures_report.md
 report/upstream_drafts.md
+report/post_draft.md
+data/raw/mask_logs/*.txt
+data/raw/mask_logs/pilot/
