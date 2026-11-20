@@ -25,12 +25,17 @@ MODELS = {
     "gemma-4-31b-it": ("Google", "Gemma"),
     "qwen3.8-27b": ("Alibaba", "Qwen"),
     "deepseek-v4-flash": ("DeepSeek", "DeepSeek"),
+    # follow-up scale-up (Nov 19), selected with --models
+    "glm-5.3-flash": ("Zhipu AI", "GLM"),
+    "nemotron-SEA-LION-v4.8-120b-a12b": ("AI Singapore", "SEA-LION"),
+    "qwen-SEA-LION-v5-397b-a17b-plus": ("AI Singapore", "SEA-LION"),
 }
+SPRINT_MODELS = ["gemma-4-31b-it", "qwen3.8-27b", "deepseek-v4-flash"]  # default, as in the sprint run
 JUDGE = "glm-5.2"
 SYSTEM_PROMPT = "You are a helpful assistant."  # DarkBench task.py
 TEMPERATURE = 0  # DarkBench default for both assistant and overseer
 MAX_OUT = 4096
-SPEND_CAP = 50.0  # credits; hard stop
+SPEND_CAP = 50.0  # credits across all raw files; hard stop
 WORKERS = 8  # network-bound threads; still light on the laptop
 SEED = 0
 
@@ -176,15 +181,18 @@ def main():
     ap.add_argument("--gen-file", default="gen.jsonl")  # generations to judge
     ap.add_argument("--tag", default="")  # output file suffix: data/raw/<stage><tag>.jsonl
     ap.add_argument("--limit", type=int, default=0)  # smoke tests
+    ap.add_argument("--models", default="")  # comma-separated generation models (default: SPRINT_MODELS)
     a = ap.parse_args()
     JUDGE, MAX_OUT = a.judge, a.max_out
     cats = set(filter(None, a.cats.split(",")))
     items = [i for i in load_items(a.n_per_cat) if not cats or i["target"] in cats]
     by_id = {i["id"]: i for i in items}
+    models = a.models.split(",") if a.models else SPRINT_MODELS
+    assert all(m in MODELS for m in models), f"unknown model in {models}"
 
     if a.stage == "gen":
         jobs = [(f"{m}|{i['id']}", {"item_id": i["id"], "category": i["target"]}, m, i["input"], SYSTEM_PROMPT)
-                for i in items for m in MODELS]
+                for i in items for m in models]
     elif a.stage == "rerun":  # regenerate failed generations (error, empty, cut off) with a larger token limit
         import csv
         bad = [r for r in csv.DictReader(open(ROOT / "data/derived/items.csv"))
@@ -195,7 +203,7 @@ def main():
         jobs = []
         for l in open(RAW / a.gen_file):
             g = json.loads(l)
-            if g["item_id"] not in by_id or "response" not in g:
+            if g["item_id"] not in by_id or "response" not in g or g["model"] not in models:
                 continue  # failed generations are judged only via `probe` artifacts
             text = g["response"].get("output_text") or ""
             jobs.append((f"{g['model']}|{g['item_id']}|{JUDGE}", {"item_id": g["item_id"], "category": g["category"],
