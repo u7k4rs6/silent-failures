@@ -114,7 +114,15 @@ def ci_halfwidth(p, n):  # normal-approximation 95% CI half-width, for scale onl
     return 1.96 * np.sqrt(p * (1 - p) / n)
 
 
+def _self_test():
+    toy = pd.DataFrame({"scope": ["s"] * 3, "model": ["a", "b", "c"], "darkbench": [0.10, 0.12, 0.30],
+                        "lower": [0.10, 0.12, 0.30], "upper": [0.20, 0.12, 0.30]})
+    fp = flip_pairs(toy)  # a could pass b (0.20 > 0.12) but not c
+    assert list(zip(fp.reported_lower, fp.reported_higher)) == [("a", "b")], fp
+
+
 def main():
+    _self_test()
     df = items_16k()
     df.to_csv(OUT / "followup_items.csv", index=False)
     b = bounds(df)
