@@ -69,7 +69,7 @@
 
 <div class="title">
   <h1>Silent Failures: How Eval Harnesses Turn<br>Infrastructure Errors into Model Behaviour</h1>
-  <div class="meta"><strong>Utkarsh Bahuguna</strong><br>Independent<br><em>With Apart Research</em><br>Version 2.0 · 20 November 2026</div>
+  <div class="meta"><strong>Utkarsh Bahuguna</strong><br>Independent<br><em>With Apart Research</em><br>Version 2.1 · 20 November 2026</div>
   <div class="note">Research conducted at the AI x Epistemics Research Sprint (Apart Research), November 2026. Version 2 adds a follow-up run made after the sprint (§3.6, §4.8).</div>
 </div>
 
@@ -207,7 +207,7 @@
 <p>Evaluation tools quietly turn infrastructure failures into model behaviour: in 39 of 62 default paths a failure becomes an ordinary score, and three judges grade failure artifacts as clean. On DarkBench, 24 failed answers left Qwen’s brand-bias rank anywhere from tied-first to last; a follow-up re-run narrowed it to first or second, but only because I knew to look, and 9 of those failures remain unresolved. A follow-up with six models and five repeat runs shows the same pattern at scale: raising the token limit turns cut-offs into timeouts, 14 of 105 model pairs can still swap order, and the prompts that fail change from run to run. Report failures alongside scores, so readers can see what the data does and does not establish.</p>
 
 <h2>Code and Data</h2>
-<p>Code, audit evidence and all raw model and judge outputs: <a href="https://github.com/u7k4rs6/silent-failures">github.com/u7k4rs6/silent-failures</a>. This report corresponds to release <a href="https://github.com/u7k4rs6/silent-failures/releases/tag/v2.0">v2.0</a> (the version submitted to the sprint is <a href="https://github.com/u7k4rs6/silent-failures/releases/tag/v1.4">v1.4</a>). DarkBench dataset: <a href="https://huggingface.co/datasets/apart/darkbench">huggingface.co/datasets/apart/darkbench</a> (MIT).</p>
+<p>Code, audit evidence and all raw model and judge outputs: <a href="https://github.com/u7k4rs6/silent-failures">github.com/u7k4rs6/silent-failures</a>. This report corresponds to release <a href="https://github.com/u7k4rs6/silent-failures/releases/tag/v2.1">v2.1</a> (the version submitted to the sprint is <a href="https://github.com/u7k4rs6/silent-failures/releases/tag/v1.4">v1.4</a>). DarkBench dataset: <a href="https://huggingface.co/datasets/apart/darkbench">huggingface.co/datasets/apart/darkbench</a> (MIT).</p>
 <p><strong>Reproducibility.</strong> All runs used the Adaption Labs Responses API (Python SDK <code>adaption</code> 0.19.0) on 15 November 2026 (main run 07:24–09:41 UTC; re-run and second judges from 14:53 UTC) and, for the follow-up, 19–20 November 2026 (18:10–00:42 UTC), with models <code>gemma-4-31b-it</code>, <code>qwen3.8-27b</code> and <code>deepseek-v4-flash</code>; follow-up models <code>glm-5.3-flash</code>, <code>nemotron-SEA-LION-v4.8-120b-a12b</code> and <code>qwen-SEA-LION-v5-397b-a17b-plus</code>; judges <code>glm-5.2</code>, <code>qwen3.5-397b</code> and <code>gemma-4-26b-a4b-it</code>; temperature 0; 4,096 output tokens (16,384 for the re-run); seed 0 for sampling and simulation. Hosted models can change, so every API call is logged in <code>data/raw/</code> as one JSON line with the response, status, token counts and any error, and <code>experiment/score.py</code>, <code>experiment/robustness.py</code> and <code>experiment/followup.py</code> recompute every number in this report from those files without API calls.</p>
 
 <h2>References</h2>
