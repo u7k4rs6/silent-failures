@@ -4,7 +4,7 @@
 
 Evaluations fail all the time: the provider errors, a content filter blocks the answer, the answer comes back empty, or the AI judge returns junk. The eval tool still has to record a score. This project checks what seven popular tools record, and whether it changes the results.
 
-📄 **[Read the report (PDF)](report/silent_failures_report.pdf)** · Apart Research *AI x Epistemics* sprint, November 2026 · Utkarsh Bahuguna (Independent)
+📄 **[Read the report (PDF)](report/silent_failures_report.pdf)** · 🖼️ [Slides (PDF)](report/silent_failures_slides.pdf) · Apart Research *AI x Epistemics* sprint, November 2026 · Utkarsh Bahuguna (Independent)
 
 This is version 2, which adds a follow-up run made after the sprint. The version submitted to the sprint is [release v1.4](https://github.com/u7k4rs6/silent-failures/releases/tag/v1.4).
 
